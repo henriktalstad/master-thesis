@@ -1,0 +1,16 @@
+{
+  "certificateNumber": "Energiattest-2026-279791",
+  "heatedBraM2": 331,
+  "netEnergyDemandTotalKwhPerM2": 177.8,
+  "categories": [
+    { "id": "ventilation_heat", "labelEn": "Ventilation heat", "kwhPerM2PerYear": 51.86, "inMpcScope": true },
+    { "id": "space_cooling", "labelEn": "Space cooling", "kwhPerM2PerYear": 35.95, "inMpcScope": false },
+    { "id": "space_heating", "labelEn": "Space heating", "kwhPerM2PerYear": 35.45, "inMpcScope": false },
+    { "id": "equipment", "labelEn": "Equipment", "kwhPerM2PerYear": 18.92, "inMpcScope": false },
+    { "id": "fans", "labelEn": "Fans", "kwhPerM2PerYear": 15.23, "inMpcScope": true },
+    { "id": "lighting", "labelEn": "Lighting", "kwhPerM2PerYear": 12.58, "inMpcScope": false },
+    { "id": "domestic_hot_water", "labelEn": "Domestic hot water", "kwhPerM2PerYear": 5.02, "inMpcScope": false },
+    { "id": "ventilation_cooling", "labelEn": "Ventilation cooling", "kwhPerM2PerYear": 2.14, "inMpcScope": true },
+    { "id": "pumps", "labelEn": "Pumps", "kwhPerM2PerYear": 0.66, "inMpcScope": false }
+  ]
+}

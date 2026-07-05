@@ -1,0 +1,24 @@
+{
+  "generatedAt": "2026-07-05T07:16:21.753Z",
+  "method": "linear kWh scaling on controllable totals with fixed overhead residual",
+  "powerProxy": {
+    "version": "power-v3",
+    "betaFan": 1.228,
+    "betaFanFlow": 0.013,
+    "betaHeat": 1.823,
+    "betaCool": 1.07,
+    "controllableElectricShare": 0.277,
+    "controllableHeatShare": 0.528,
+    "betaDistrictHeat": 10.586
+  },
+  "avgMarginalKrPerKwh": 1.2948,
+  "deltaCostPctByScenario": {
+    "baseline": -1.7,
+    "electric_share_minus_20": -1.45,
+    "electric_share_plus_20": -1.91,
+    "heat_share_minus_20": -2.43,
+    "heat_share_plus_20": -1.3,
+    "both_shares_minus_20": -2.13,
+    "both_shares_plus_20": -1.48
+  }
+}

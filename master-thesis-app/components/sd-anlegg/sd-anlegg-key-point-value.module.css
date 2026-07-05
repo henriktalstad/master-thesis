@@ -1,0 +1,22 @@
+.valueSlot {
+  display: inline-block;
+  min-width: 0;
+  max-width: 100%;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.22s ease;
+}
+
+.valueRow {
+  display: flex;
+  min-height: 1.35rem;
+  min-width: 0;
+  align-items: baseline;
+  gap: 0.25rem;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .valueSlot {
+    transition: none;
+  }
+}

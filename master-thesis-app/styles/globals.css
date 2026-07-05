@@ -1,0 +1,640 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "react-day-picker/style.css";
+@import "@xyflow/react/dist/style.css";
+
+/* Ekskluderer problematisk klasse som genererer ugyldig CSS (attribute selector-parsingsfeil) */
+@source not inline("[&_.min-h-[300px]]:min-h-[220px]");
+
+/* 
+  Scoped Platform – Brand & Theme System
+  
+  Colors are defined using OKLCH for perceptual uniformity.
+  Charts use HSL for Recharts compatibility.
+*/
+
+:root {
+  color-scheme: light;
+
+  /* Base colors - Light mode */
+  --background: oklch(0.98 0.01 180);
+  --foreground: oklch(0.2 0.03 240);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.03 240);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.03 240);
+
+  /* Brand Colors - Teal/Turkis */
+  --primary: oklch(0.52 0.18 180);
+  --primary-foreground: oklch(1 0 0);
+
+  --secondary: oklch(0.85 0.09 180);
+  --secondary-foreground: oklch(0.2 0.04 240);
+
+  --muted: oklch(0.94 0.03 175);
+  --muted-foreground: oklch(0.35 0.05 240);
+
+  --accent: oklch(0.865 0.082 180);
+  --accent-foreground: oklch(0.21 0.055 188);
+
+  /* Status Colors - Optimized for trend visibility */
+  --destructive: oklch(0.55 0.24 25);
+  --destructive-foreground: oklch(1 0 0);
+
+  --success: oklch(0.55 0.2 145);
+  --success-foreground: oklch(1 0 0);
+
+  --warning: oklch(0.55 0.22 75);
+  /* Lyst tema: mørk tekst mot lys warning-bakgrunn (WCAG AA 4.5:1) */
+  --warning-foreground: oklch(0.18 0.03 60);
+
+  --info: oklch(0.52 0.22 210);
+  --info-foreground: oklch(1 0 0);
+
+  /* Trend-specific colors for better visibility */
+  --trend-positive: oklch(0.55 0.2 145);
+  --trend-positive-bg: oklch(0.55 0.2 145 / 0.12);
+  --trend-negative: oklch(0.55 0.24 25);
+  --trend-negative-bg: oklch(0.55 0.24 25 / 0.12);
+  --trend-neutral: oklch(0.55 0.03 240);
+  --trend-neutral-bg: oklch(0.55 0.03 240 / 0.12);
+
+  /* UI Elements */
+  --border: oklch(0.85 0.02 240);
+  --input: oklch(0.92 0.02 180);
+  --ring: oklch(0.6 0.2 180);
+
+  /* Sidebar */
+  --sidebar: oklch(0.96 0.03 180);
+  --sidebar-foreground: oklch(0.22 0.04 240);
+  --sidebar-primary: oklch(0.48 0.18 180);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.85 0.09 180);
+  --sidebar-accent-foreground: oklch(0.2 0.04 240);
+  --sidebar-border: oklch(0.85 0.03 180);
+  --sidebar-ring: oklch(0.55 0.18 180);
+
+  /* Charts - Light Mode (HSL for Recharts) */
+  /* Chart-1: Elektrisitet - Grønn (emerald) */
+  --chart-1: hsl(159.98 100% 30%);
+  --chart-2: hsl(330 80% 55%);
+  /* Chart-3: Kjøling - Blå/cyan */
+  --chart-3: hsl(189.48 100% 43%);
+  /* Chart-4: Fjernvarme - Oransje */
+  --chart-4: hsl(24.65 100% 50%);
+  --chart-5: hsl(0 85% 55%);
+  --chart-6: hsl(280 75% 55%);
+  --chart-7: hsl(85 85% 45%);
+  --chart-8: hsl(190 90% 45%);
+  --chart-9: oklch(0.65 0.16 80);
+  --chart-10: oklch(0.7 0.05 250);
+  --chart-11: oklch(0.68 0.22 30);
+  --chart-12: oklch(0.6 0.24 10);
+
+  --chart-total: var(--chart-3);
+  --chart-production: hsl(45 93% 47%);
+  --chart-axis: oklch(0.42 0.045 240);
+  --chart-grid: oklch(0.86 0.025 180);
+  --chart-label: oklch(0.28 0.035 240);
+  --chart-bg: oklch(1 0 0);
+
+  /* Chart References */
+  --chart-reference-current: oklch(0.5 0.15 160);
+  --chart-reference-warning: oklch(0.58 0.22 75);
+  --chart-reference-text: oklch(1 0 0);
+
+  /* Year-over-year: lys variant av SAMME farge-familie for forrige år */
+  --chart-1-prev: hsl(150 30% 52%);
+  --chart-4-prev: hsl(25 70% 66%);
+  --chart-3-prev: hsl(200 48% 62%);
+  --chart-production-prev: hsl(45 60% 62%);
+
+  /* Typography & Layout */
+  --font-sans:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-serif:
+    "Playfair Display", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono:
+    "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  --radius: 0.5rem;
+  --tracking-normal: 0.025em;
+
+  /* Shadows */
+  --shadow-2xs: 0px 0px 10px 0px hsl(200 10% 5% / 0.05);
+  --shadow-xs: 0px 0px 15px 0px hsl(200 10% 5% / 0.05);
+  --shadow-sm: 0px 1px 2px 0px hsl(200 10% 5% / 0.08);
+  --shadow: 0px 1px 3px 0px hsl(200 10% 5% / 0.1);
+  --shadow-md: 0px 2px 4px -1px hsl(200 10% 5% / 0.12);
+  --shadow-lg: 0px 4px 6px -2px hsl(200 10% 5% / 0.15);
+  --shadow-xl: 0px 8px 10px -3px hsl(200 10% 5% / 0.18);
+  --shadow-2xl: 0px 16px 25px -5px hsl(200 10% 5% / 0.2);
+
+  /* Accessibility Focus */
+  --focus-ring-color: oklch(0.55 0.18 180 / 0.5);
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 2px;
+
+  /* Tooltips – følger tema (lys bakgrunn i lys modus) for konsistent UI */
+  --tooltip-bg: var(--popover);
+  --tooltip-foreground: var(--popover-foreground);
+  --tooltip-border: var(--border);
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* Base - Dark Mode */
+  --background: oklch(0.21 0.04 265.75);
+  --foreground: oklch(0.99 0 0);
+  --card: oklch(0.27 0.05 248.5);
+  --card-foreground: oklch(1 0 0);
+  --popover: oklch(0.27 0.05 248.5);
+  --popover-foreground: oklch(1 0 0);
+
+  /* Brand - Dark Mode */
+  --primary: oklch(0.91 0.07 159.52);
+  --primary-foreground: oklch(0.21 0.04 265.75);
+
+  --secondary: oklch(0.36 0.05 248.5);
+  --secondary-foreground: oklch(0.98 0.01 180);
+
+  --muted: oklch(0.28 0.04 248.5);
+  --muted-foreground: oklch(0.75 0.04 200);
+
+  --accent: oklch(0.52 0.18 180);
+  --accent-foreground: oklch(0.95 0.01 180);
+
+  /* Status - Dark Mode - Optimized for trend visibility */
+  --destructive: oklch(0.72 0.18 15);
+  --destructive-foreground: oklch(0.98 0.02 85);
+
+  --success: oklch(0.7 0.18 145);
+  --success-foreground: oklch(0.95 0.01 180);
+
+  --warning: oklch(0.75 0.2 75);
+  --warning-foreground: oklch(0.95 0.01 180);
+
+  --info: oklch(0.7 0.18 210);
+  --info-foreground: oklch(0.95 0.01 180);
+
+  /* Trend-specific colors for better visibility (dark mode) */
+  --trend-positive: oklch(0.7 0.18 145);
+  --trend-positive-bg: oklch(0.7 0.18 145 / 0.15);
+  --trend-negative: oklch(0.72 0.18 15);
+  --trend-negative-bg: oklch(0.72 0.18 15 / 0.15);
+  --trend-neutral: oklch(0.7 0.03 240);
+  --trend-neutral-bg: oklch(0.7 0.03 240 / 0.15);
+
+  /* UI Elements - Dark Mode */
+  --border: oklch(0.45 0.04 200);
+  --input: oklch(0.34 0.05 248.5);
+  --ring: oklch(0.91 0.07 159.52);
+
+  /* Sidebar - Dark Mode */
+  --sidebar: oklch(0.27 0.05 248.5);
+  --sidebar-foreground: oklch(0.95 0.02 180);
+  --sidebar-primary: oklch(0.75 0.12 159.52);
+  --sidebar-primary-foreground: oklch(0.05 0.01 240);
+  --sidebar-accent: oklch(0.36 0.08 159.52);
+  --sidebar-accent-foreground: oklch(0.98 0.01 180);
+  --sidebar-border: oklch(0.5 0.05 248.5);
+  --sidebar-ring: oklch(0.75 0.06 138.76);
+
+  /* Charts - Dark Mode (Lighter for contrast) */
+  /* Chart-1: Elektrisitet - Grønn (emerald) for dark mode */
+  --chart-1: hsl(159.98 82% 45%);
+  --chart-2: hsl(330 90% 70%);
+  /* Chart-3: Kjøling - Blå/cyan for dark mode */
+  --chart-3: hsl(189.48 86% 56%);
+  /* Chart-4: Fjernvarme - Varm oransje for dark mode */
+  --chart-4: hsl(24.65 95% 60%);
+  --chart-5: hsl(0 90% 65%);
+  --chart-6: hsl(280 85% 75%);
+  --chart-7: hsl(85 90% 60%);
+  --chart-8: hsl(190 90% 65%);
+  --chart-9: oklch(0.82 0.16 80);
+  --chart-10: oklch(0.85 0.05 250);
+  --chart-11: oklch(0.8 0.22 30);
+  --chart-12: oklch(0.75 0.24 10);
+
+  --chart-total: var(--chart-3);
+  --chart-production: hsl(45 90% 55%);
+  --chart-axis: oklch(0.78 0.025 240);
+  --chart-grid: oklch(0.34 0.035 250);
+  --chart-label: oklch(0.94 0.012 240);
+  --chart-bg: oklch(0.18 0.04 265);
+
+  --chart-reference-current: oklch(0.7 0.02 180);
+  --chart-reference-warning: oklch(0.78 0.2 80);
+  --chart-reference-text: oklch(0.99 0 0);
+
+  /* Year-over-year: lys/dempet variant av SAMME farge-familie for forrige år */
+  --chart-1-prev: hsl(150 34% 74%);
+  --chart-4-prev: hsl(25 72% 72%);
+  --chart-3-prev: hsl(201 50% 70%);
+  --chart-production-prev: hsl(45 62% 70%);
+
+  /* Tooltips – følger tema (mørk bakgrunn i mørk modus) for konsistent UI */
+  --tooltip-bg: var(--popover);
+  --tooltip-foreground: var(--popover-foreground);
+  --tooltip-border: var(--border);
+
+  /* Shadows - Dark Mode */
+  --shadow-2xs: 0px 0px 30px 0px hsl(0 0% 0% / 0.15);
+  --shadow-xs: 0px 0px 30px 0px hsl(0 0% 0% / 0.15);
+  --shadow-sm:
+    0px 0px 30px 0px hsl(0 0% 0% / 0.3), 0px 1px 2px -1px hsl(0 0% 0% / 0.3);
+  --shadow:
+    0px 0px 30px 0px hsl(0 0% 0% / 0.3), 0px 1px 2px -1px hsl(0 0% 0% / 0.3);
+  --shadow-md:
+    0px 0px 30px 0px hsl(0 0% 0% / 0.3), 0px 2px 4px -1px hsl(0 0% 0% / 0.3);
+  --shadow-lg:
+    0px 0px 30px 0px hsl(0 0% 0% / 0.3), 0px 4px 6px -1px hsl(0 0% 0% / 0.3);
+  --shadow-xl:
+    0px 0px 30px 0px hsl(0 0% 0% / 0.3), 0px 8px 10px -1px hsl(0 0% 0% / 0.3);
+  --shadow-2xl: 0px 0px 30px 0px hsl(0 0% 0% / 0.75);
+}
+
+@theme inline {
+  /* Colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Semantic Colors */
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+
+  /* Charts */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6, var(--chart-1));
+  --color-chart-7: var(--chart-7, var(--chart-2));
+  --color-chart-8: var(--chart-8, var(--chart-3));
+  --color-chart-9: var(--chart-9);
+  --color-chart-10: var(--chart-10);
+  --color-chart-11: var(--chart-11);
+  --color-chart-12: var(--chart-12);
+
+  --color-chart-axis: var(--chart-axis);
+  --color-chart-grid: var(--chart-grid);
+  --color-chart-label: var(--chart-label);
+  --color-chart-bg: var(--chart-bg);
+  --color-chart-total: var(--chart-total);
+
+  --color-chart-reference-current: var(--chart-reference-current);
+  --color-chart-reference-warning: var(--chart-reference-warning);
+  --color-chart-reference-text: var(--chart-reference-text);
+
+  /* Trend Colors */
+  --color-trend-positive: var(--trend-positive, var(--success));
+  --color-trend-positive-bg: var(--trend-positive-bg, var(--success) / 0.12);
+  --color-trend-negative: var(--trend-negative, var(--destructive));
+  --color-trend-negative-bg: var(
+    --trend-negative-bg,
+    var(--destructive) / 0.12
+  );
+  --color-trend-neutral: var(--trend-neutral, var(--muted-foreground));
+  --color-trend-neutral-bg: var(--trend-neutral-bg, var(--muted) / 0.5);
+
+  /* Sidebar */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Tooltips */
+  --color-tooltip-bg: var(--tooltip-bg);
+  --color-tooltip-foreground: var(--tooltip-foreground);
+  --color-tooltip-border: var(--tooltip-border);
+
+  /* Typography */
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+
+  --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
+  --tracking-tight: calc(var(--tracking-normal) - 0.025em);
+  --tracking-normal: var(--tracking-normal);
+  --tracking-wide: calc(var(--tracking-normal) + 0.025em);
+  --tracking-wider: calc(var(--tracking-normal) + 0.05em);
+  --tracking-widest: calc(var(--tracking-normal) + 0.1em);
+
+  /* Radius & Shadows */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --shadow-2xs: var(--shadow-2xs);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "kern";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: var(--tracking-normal);
+    line-height: 1.5;
+  }
+
+  /* Accessibility & Focus */
+  :focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Global navigation progress bar (used by drift layout + root NavigationProgress) */
+@keyframes progress-indeterminate {
+  0% {
+    transform: scaleX(0);
+  }
+  50% {
+    transform: scaleX(0.6);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.animate-progress-indeterminate {
+  animation: progress-indeterminate 1.5s ease-in-out infinite;
+}
+
+/* Custom breakpoint for extra-small screens */
+@custom-media --xs (width >= 475px);
+
+@layer utilities {
+  /* xs: responsive utilities for extra-small screens */
+  @media (--xs) {
+    .xs\:block {
+      display: block;
+    }
+    .xs\:inline-flex {
+      display: inline-flex;
+    }
+    .xs\:flex {
+      display: flex;
+    }
+    .xs\:hidden {
+      display: none;
+    }
+    .xs\:gap-2 {
+      gap: 0.5rem;
+    }
+    .xs\:gap-3 {
+      gap: 0.75rem;
+    }
+    .xs\:text-xs {
+      font-size: 0.75rem;
+      line-height: 1rem;
+    }
+    .xs\:text-sm {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+    .xs\:px-2 {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+    .xs\:px-3 {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+    .xs\:py-1 {
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+    }
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .sidebar-logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+  }
+
+  /* Tooltip Specifics */
+  .bg-tooltip-bg {
+    background-color: var(--color-tooltip-bg);
+  }
+  .text-tooltip-foreground {
+    color: var(--color-tooltip-foreground);
+  }
+  .border-tooltip-border {
+    border-color: var(--color-tooltip-border);
+  }
+
+  /* Scrollbar Styling */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-default {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+  .scrollbar-default::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-default::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-default::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+  .scrollbar-default::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/50;
+  }
+}
+
+/* ==========================================================================
+   Leaflet (kart) – konsistent styling
+   ========================================================================== */
+
+.leaflet-container {
+  font-family: var(--font-sans);
+}
+
+/* Gir kartet et mer "app"-aktig uttrykk og unngår rare underlines */
+.leaflet-container a {
+  text-decoration: none;
+}
+
+/* Popup: matcher card/shadcn-ish look litt bedre */
+.leaflet-container .leaflet-popup-content-wrapper {
+  border-radius: calc(var(--radius) + 2px);
+  box-shadow: var(--shadow-lg);
+  /* Leaflet sin egen CSS setter ofte hvit bakgrunn – vi overstyrer senere i filen (ingen !important) */
+  background: var(--color-popover, var(--popover));
+  border: 1px solid var(--color-border, var(--border));
+  /* Ikke bruk !important på tekstfarge: da får Tailwind-klassene inni popup ikke overstyre */
+  color: var(--color-popover-foreground, var(--popover-foreground));
+}
+
+.leaflet-container .leaflet-popup-tip {
+  box-shadow: var(--shadow-sm);
+  background: var(--color-popover, var(--popover));
+}
+
+/* Close-knapp skal også følge tema/kontrast */
+.leaflet-container .leaflet-popup-close-button {
+  color: var(--muted-foreground) !important;
+  color: var(--color-muted-foreground, var(--muted-foreground)) !important;
+  padding: 6px 8px;
+  line-height: 1;
+}
+.leaflet-container .leaflet-popup-close-button:hover {
+  color: var(--foreground) !important;
+  color: var(--color-foreground, var(--foreground)) !important;
+}
+
+/* Linker i popup bør ha god kontrast i begge tema */
+.leaflet-container .leaflet-popup-content a {
+  color: var(--primary) !important;
+  color: var(--color-primary, var(--primary)) !important;
+}
+.leaflet-container .leaflet-popup-content a:hover {
+  text-decoration: underline;
+}
+
+/* Leaflet setter ofte margin/farge her – vi gjør det theme-konsistent */
+.leaflet-container .leaflet-popup-content {
+  margin: 0;
+  padding: 12px 14px;
+  color: var(--color-popover-foreground, var(--popover-foreground));
+}
+
+/* Kontroller: mer profesjonell styling med tema-støtte */
+.leaflet-container .leaflet-control-zoom {
+  border: 1px solid var(--color-border, var(--border)) !important;
+  background: var(--color-card, var(--card)) !important;
+  box-shadow: var(--shadow-md) !important;
+  border-radius: calc(var(--radius) + 2px) !important;
+  overflow: hidden;
+}
+
+.leaflet-container .leaflet-control-zoom a {
+  border-radius: 0 !important;
+  background: var(--color-card, var(--card)) !important;
+  color: var(--color-foreground, var(--foreground)) !important;
+  border: none !important;
+  border-bottom: 1px solid var(--color-border, var(--border)) !important;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease !important;
+  width: 34px !important;
+  height: 34px !important;
+  line-height: 34px !important;
+}
+
+.leaflet-container .leaflet-control-zoom a:last-child {
+  border-bottom: none !important;
+}
+
+.leaflet-container .leaflet-control-zoom a:hover {
+  background: var(--color-muted, var(--muted)) !important;
+  color: var(--color-foreground, var(--foreground)) !important;
+}
+
+.leaflet-container .leaflet-control-zoom-in,
+.leaflet-container .leaflet-control-zoom-out {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  line-height: 34px !important;
+}
+
+/* Attribution: skjult helt */
+.leaflet-control-attribution {
+  display: none !important;
+}
+
+/* Selected divIcon wrapper: ikke la Leaflet gi egen bakgrunn/border */
+.custom-marker-selected {
+  background: transparent;
+  border: 0;
+}

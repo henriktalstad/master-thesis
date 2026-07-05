@@ -1,0 +1,1610 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../generated/client"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum AppRole {
+  ADMIN
+  MANAGER
+  JANITOR
+  TENANT
+}
+
+enum InfraspawnAlarmKind {
+  ALARM
+  FAULT
+  OUT_OF_SERVICE
+}
+
+enum InfraspawnAlarmSeverity {
+  A
+  B
+  C
+  FAULT
+}
+
+enum InfraspawnSystemDomain {
+  VENTILATION
+  HEATING
+  SYSTEM
+  OTHER
+}
+
+enum EnergyPriceSource {
+  NORD_POOL
+  ENTSOE
+}
+
+enum AreaMeasurementBasis {
+  BTA // Bruttoareal – standard for næringseiendom
+  BRA // Bruksareal – standard for bolig
+  NTA // Nettoareal – rom for rom
+}
+
+enum IntegrationProvider {
+  ELHUB
+  CELSIO
+  A_VARME
+  ENGAGE
+  SMARTVATTEN
+  STATKRAFT
+  FENISTRA
+  FAZILE
+  ENOCO
+  ELVACO_EVO
+  INFRASPAWN
+  HENTEPLAN
+}
+
+enum IntegrationStatus {
+  ACTIVE
+  INACTIVE
+  ERROR
+  PENDING_SETUP
+}
+
+enum IntegrationType {
+  ELECTRICITY
+  DISTRICT_HEATING
+  WASTE
+  WATER
+  PROPERTY_MANAGEMENT
+  METERING_IMPORT
+}
+
+enum BackfillState {
+  BASELINE
+  GAPS
+  COMPLETE
+}
+
+enum MpcSimulationStatus {
+  IDLE
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum MpcReplayQuality {
+  VALID
+  INVALID_FAN
+  INSUFFICIENT_DATA
+}
+
+enum MpcControlTrack {
+  OBSERVED
+  EMULATED
+  MPC
+  DEMAND
+}
+
+enum MpcChartSeries {
+  COST_TIMELINE
+  COMFORT
+  LOAD_PROFILE
+  EFFECT_SUMMARY
+}
+
+enum MpcPriceLoadBand {
+  LOW
+  MID
+  HIGH
+  PEAK
+}
+
+enum MpcPersistStatus {
+  PENDING
+  REPLAY_STEPS
+  ARTIFACTS
+  COMPLETE
+  FAILED
+}
+
+/// Driftsmodus for MPC — skygge, operatør-godkjenning, eller live BMS.
+enum MpcExecutionMode {
+  SHADOW
+  SUPERVISORY
+  LIVE
+}
+
+/// Livssyklus for supervisory/writeback-kommandoer mot BMS.
+enum MpcSupervisoryStatus {
+  predicted
+  approved
+  queued
+  published
+  acknowledged
+  applied
+  rejected
+  failed
+}
+
+enum NotificationPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum AllocationTrack {
+  CLASSIC
+  FENISTRA
+  FAZILE
+}
+
+enum MeteringPointType {
+  ELECTRICITY // Strømforbruk
+  HEAT // Fjernvarme / termisk varme (forbruk)
+  COOLING // Termisk kjøling, fjernkjøling, chillere (forbruk)
+  PRODUCTION // Energiproduksjon: solceller, vindkraft, batterilagring
+  WATER // Vannforbruk
+}
+
+enum EnergyFlowStage {
+  GRID_DELIVERED // AMS / fjernvarme inn over bygningsgrense
+  GRID_EXPORTED // Eksport til nett
+  CONSUMPTION // El-forbruk på kurs/last (sub-meter eller main)
+  PRODUCTION_GROSS // Lokal produksjon ved kilde (PV-inverter, VP-termisk, el-kjel)
+  DISTRIBUTION // Termisk energi levert til sone/aggregat (varmemåler ved leveranse)
+  CONVERSION_INPUT // El som driver konverteringsenhet (også med i CONSUMPTION-hierarki)
+  AMBIENT_SOURCE // Ambient utenfor bygningsgrense (brønnpark, uteluft til VP)
+}
+
+enum MeterHierarchyRole {
+  TOTAL // Rot som eier summen for sin bærer (Hovedfordeling, AMS-måler)
+  BRANCH // Mellomledd
+  LEAF // Blad
+  STANDALONE // Ikke del av hierarki
+}
+
+enum CtPlacement {
+  LOAD_BRANCH // CT på kurs — måler last, ser ikke PV
+  FEED_MAIN // CT på hovedinnkommer — bi-dir, ser netto grid
+  PV_OUTPUT // CT på PV-branch — kun produksjon
+  BATTERY // CT på batteri
+  THERMAL_PRODUCTION // Varmemåler ved produksjonskilde (varmepumpe, el-kjel)
+  THERMAL_DELIVERY // Varmemåler ved leveransepunkt (gulvvarme, ventilasjon)
+  AMBIENT // Måler ambient-side (brønnpark før VP)
+  UNKNOWN // Ikke avklart — KPI-er må flagges som foreløpige
+}
+
+enum BuildingMeteringTopology {
+  GRID_AMS_ONLY
+  SUB_METER_ONLY
+  HYBRID_AMS_PLUS_SUB
+  UNKNOWN
+}
+
+enum MeterVerificationStatus {
+  AUTO
+  VERIFIED
+  DEFERRED
+}
+
+enum SubMeterCategory {
+  // --- NS 3031 + ASHRAE energiformål ---
+  OPPVARMING // Romoppvarming, radiatorer, gulvvarme, aerotempere
+  VENTILASJON // Ventilasjonsaggregat, vifter, batterier
+  KJOLING // Komfortkjøling, chillere, DX-anlegg
+  BELYSNING // Interiør og eksteriør belysning
+  STIKKONTAKT // Plugglaster, kontorutstyr, småapparater
+  TAPPEVANN // VVB, varmtvannspumper, forvarming
+
+  // --- Spesialsystemer ---
+  HEIS // Heiser, rulletrapper, vertikal transport
+  ELBIL_LADING // Elbilladere, hurtigladestasjoner
+  IT_DATAROM // Serverrom, UPS, dataromkjøling
+  VARMEPUMPE // VP produksjon, kald/varm side, brønnpark
+  SOLCELLE // Solcelleanlegg, invertere, batterilagring
+  SNOSMELTING // Snøsmelteanlegg, varmekabler ute
+
+  // --- Distribusjon og infrastruktur ---
+  FORDELING // Etasje-/romfordeling, underfordeling, hovedtavle
+  FELLES // Fellesanlegg i delte bygg
+  TEKNISK // Automasjon, styring, tekniske tavler
+  PROSESS // Prosesskjøling, laboratorium, verksted, kjøkken
+
+  // --- Annet ---
+  ANNET // Egendefinert (bruker spesifiserer i subMeterLabel)
+}
+
+enum SubMeterSubCategory {
+  // --- OPPVARMING ---
+  GULVVARME
+  RADIATOR
+  KONVEKTOR
+  AEROTEMPER
+  SNOSMELTING_VARMEKABLER
+  VARMEBATTERI
+
+  // --- VENTILASJON ---
+  VIFTE
+  VARMEBATTERI_VENT
+  KJOLEBATTERI
+  ROTOR_GJENVINNER
+
+  // --- KJOLING ---
+  CHILLER
+  DX_AGGREGAT
+  TORRKJOLER
+  PROSESSKJOLING
+
+  // --- VARMEPUMPE ---
+  VP_PRODUKSJON
+  VP_KALD_SIDE
+  VP_VARM_SIDE
+
+  // --- STIKKONTAKT ---
+  KJOKKEN
+  LAB
+  VERKSTED
+  KONTOR
+  PROSESSUTSTYR
+
+  // --- BELYSNING ---
+  INNVENDIG_BELYSNING
+  UTVENDIG_BELYSNING
+  NODBELYSNING
+
+  // --- IT_DATAROM ---
+  IT_LAST
+  UPS
+  IT_KJOLING
+
+  // --- TEKNISK ---
+  AUTOMASJON
+  STYRING
+  MIDLERTIDIG_STROM
+
+  // --- TAPPEVANN ---
+  VVB
+  SIRKULASJONSPUMPE
+
+  // --- HEIS ---
+  PERSONHEIS
+  VAREHEIS
+  RULLETRAPP
+
+  // --- ELBIL_LADING ---
+  NORMALLADER
+  HURTIGLADER
+
+  // --- SOLCELLE ---
+  PV_PANEL
+  INVERTER
+  BATTERILAGRING
+}
+
+model User {
+  id                                  String                               @id @default(cuid())
+  clerkUserId                         String                               @unique
+  email                               String                               @unique
+  firstName                           String?
+  lastName                            String?
+  imageUrl                            String?
+  /// Plattform-superadmin (Scoped drift/støtte). **Skal aldri** settes automatisk fra org-admin i Clerk — bruk `OrganizationToUsers.role` / `PersonDefinition.role` (`AppRole`) for det.
+  isAdmin                             Boolean                              @default(false)
+  lastSignInAt                        DateTime?                            @default(now())
+  lastActiveAt                        DateTime?
+  createdAt                           DateTime                             @default(now())
+  updatedAt                           DateTime                             @updatedAt
+  alertDefaults                       Boolean                              @default(false)
+  quietHoursEnabled                   Boolean                              @default(false)
+  quietHoursStart                     Int?
+  quietHoursEnd                       Int?
+  quietHoursMinPriority               NotificationPriority?                @default(CRITICAL)
+  organizations                       OrganizationToUsers[]
+  reviewedObservations                Observation[]
+  classifiedMeteringPoints            MeteringPoint[]                      @relation("MeteringPointClassifier")
+
+  @@map("users")
+}
+
+model OrganizationToUsers {
+  id             String       @id @default(cuid())
+  organizationId String
+  userId         String
+  role           AppRole      @default(MANAGER)
+  createdAt      DateTime     @default(now())
+  organizations  Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  users          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, userId])
+  @@index([userId])
+  @@index([organizationId])
+  @@map("organization_to_users")
+}
+
+model Organization {
+  id                             String                          @id @default(cuid())
+  name                           String
+  clerkOrgId                     String                          @unique
+  imageUrl                       String?
+  onboardingCompleted            Boolean                         @default(false)
+  createdAt                      DateTime                        @default(now())
+  updatedAt                      DateTime                        @updatedAt
+  integrations                   Integration[]
+  meteringPoints                 MeteringPoint[]
+  users                          OrganizationToUsers[]
+  infraspawnSources              InfraspawnSource[]
+
+  @@index([name])
+  @@index([onboardingCompleted])
+  @@index([createdAt])
+  @@map("organizations")
+}
+
+model Integration {
+  id                       String               @id @default(cuid())
+  organizationId           String
+  provider                 IntegrationProvider
+  type                     IntegrationType
+  status                   IntegrationStatus    @default(PENDING_SETUP)
+  clientId                 String?
+  clientSecretEncrypted    String?
+  subscriptionKeyEncrypted String?
+  apiUrl                   String?
+  identityUrl              String?
+  accessToken              String?
+  tokenExpiresAt           DateTime?
+  lastSyncAt               DateTime?
+  lastSuccessfulSyncAt     DateTime?
+  metadata                 Json?                @default("{}")
+  createdAt                DateTime             @default(now())
+  updatedAt                DateTime             @updatedAt
+  organization             Organization         @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  meteringPoints           MeteringPoint[]
+  infraspawnSources        InfraspawnSource[]
+
+  @@unique([organizationId, provider])
+  @@index([organizationId])
+  @@index([provider])
+  @@index([type])
+  @@index([status])
+  @@index([lastSyncAt])
+  @@map("integrations")
+}
+
+model InfraspawnSource {
+  id                   String    @id @default(cuid())
+  integrationId        String
+  organizationId       String
+  buildingId           String
+  label                String
+  influxDatabase       String
+  apiTokenEncrypted    String
+  isActive             Boolean   @default(true)
+  lastSyncAt           DateTime? @db.Timestamptz(6)
+  lastSuccessfulSyncAt DateTime? @db.Timestamptz(6)
+  lastError            String?
+  metadata             Json?     @default("{}")
+  createdAt            DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt            DateTime  @updatedAt @db.Timestamptz(6)
+
+  integration  Integration                 @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  organization Organization                @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  building     Building                    @relation(fields: [buildingId], references: [id], onDelete: Restrict)
+  pointMeta    InfraspawnBacnetPointMeta[]
+  samples      InfraspawnBacnetSample[]
+  syncState    InfraspawnSyncState?
+  alarmEvents  InfraspawnAlarmEvent[]
+
+  @@unique([integrationId, influxDatabase])
+  @@index([organizationId])
+  @@index([integrationId])
+  @@index([buildingId])
+  @@index([isActive])
+  @@map("infraspawn_sources")
+}
+
+model InfraspawnBacnetPointMeta {
+  id          String   @id @default(cuid())
+  sourceId    String
+  objectId    String
+  objectName  String?
+  description String?
+  unit        String?
+  rawMetadata Json?
+  createdAt   DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime @updatedAt @db.Timestamptz(6)
+
+  source InfraspawnSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+
+  @@unique([sourceId, objectId])
+  @@index([sourceId])
+  @@map("infraspawn_bacnet_point_meta")
+}
+
+model InfraspawnBacnetSample {
+  id          String   @id @default(cuid())
+  sourceId    String
+  objectId    String
+  sampledAt   DateTime @db.Timestamptz(6)
+  resolution  String   @default("hour")
+  valueNum    Float?
+  quality     String?
+  sampleCount Int?
+  raw         Json?
+  createdAt   DateTime @default(now()) @db.Timestamptz(6)
+
+  source InfraspawnSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+
+  @@unique([sourceId, objectId, sampledAt, resolution])
+  @@index([sourceId, resolution, sampledAt])
+  @@map("infraspawn_bacnet_samples")
+}
+
+model InfraspawnSyncState {
+  id           String    @id @default(cuid())
+  sourceId     String    @unique
+  watermarkAt  DateTime? @db.Timestamptz(6)
+  lastRunAt    DateTime? @db.Timestamptz(6)
+  rowsUpserted Int       @default(0)
+  status       String    @default("IDLE")
+  lastError    String?
+  updatedAt    DateTime  @updatedAt @db.Timestamptz(6)
+
+  source InfraspawnSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+
+  @@map("infraspawn_sync_states")
+}
+
+model InfraspawnAlarmEvent {
+  id                String                   @id @default(cuid())
+  sourceId          String
+  objectId          String
+  buildingId        String
+  kind              InfraspawnAlarmKind
+  severity          InfraspawnAlarmSeverity
+  alarmText         String
+  valueAtActivation Float?
+  valueAtClear      Float?
+  activatedAt       DateTime                 @db.Timestamptz(6)
+  clearedAt         DateTime?                @db.Timestamptz(6)
+  domain            InfraspawnSystemDomain?
+  metadata          Json?                    @default("{}")
+  /// Unik mens åpen: `{sourceId}:{objectId}:{kind}`. Null etter clear — idempotent opprettelse.
+  openDedupeKey     String?
+  createdAt         DateTime                 @default(now()) @db.Timestamptz(6)
+  updatedAt         DateTime                 @updatedAt @db.Timestamptz(6)
+
+  source   InfraspawnSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  building Building         @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  @@unique([openDedupeKey])
+  @@index([buildingId, clearedAt, activatedAt(sort: Desc)])
+  @@index([sourceId, clearedAt])
+  @@index([sourceId, objectId, clearedAt])
+  @@map("infraspawn_alarm_events")
+}
+
+model SdAnleggSiteProfile {
+  id                String   @id @default(cuid())
+  buildingId        String   @unique
+  displayTitle      String?
+  heroImageUrl      String?
+  clientLogoUrl     String?
+  contactName       String?
+  contactPhone      String?
+  contactLabel      String?
+  featuredPointRefs Json?    @default("[]")
+  metadata          Json?    @default("{}")
+  createdAt         DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt         DateTime @updatedAt @db.Timestamptz(6)
+
+  building Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  @@map("sd_anlegg_site_profiles")
+}
+
+/// Kompakt MPC replay-steg per bygg — canonical simuleringsintervall (typisk 15 min).
+model SdAnleggMpcReplayStep {
+  id                     String   @id @default(cuid())
+  buildingId             String
+  stepAt                 DateTime @db.Timestamptz(6)
+  stepMinutes            Int      @default(15)
+  modelVersion           String   @default("mpc-v1")
+  calibrationFingerprint String
+  /// Kompakt payload — se lib/sd-anlegg/control/compact-mpc-replay-step.ts
+  payload                Json
+  createdAt              DateTime @default(now()) @db.Timestamptz(6)
+
+  building Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  @@unique([buildingId, stepAt, stepMinutes, modelVersion])
+  @@index([buildingId, stepAt])
+  @@index([buildingId, stepMinutes, stepAt])
+  @@index([buildingId, calibrationFingerprint, stepAt])
+  @@map("sd_anlegg_mpc_replay_steps")
+}
+
+/// Materialisert timevis styringssignal per bygg — beholdes for bakoverkompatibilitet.
+model SdAnleggControlSignalHour {
+  id                     String   @id @default(cuid())
+  buildingId             String
+  hourAt                 DateTime @db.Timestamptz(6)
+  modelVersion           String   @default("mpc-v1")
+  calibrationFingerprint String?
+  pipelineRunId          String?
+  /// Gjennomsnitt observert/emulert/mpc/demand — se compact-control-signal-hour.ts
+  payload                Json
+  /// Antall 15-min steg som inngår i timen
+  stepCount              Int      @default(0)
+  createdAt              DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt              DateTime @updatedAt @db.Timestamptz(6)
+
+  building Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  @@unique([buildingId, hourAt, modelVersion])
+  @@index([buildingId, hourAt(sort: Desc)])
+  @@map("sd_anlegg_control_signal_hours")
+}
+
+/// Materialisert styringssignal i valgfri oppløsning (1/5/15/60 min) — rask graf og BMS-planlegging.
+model SdAnleggControlSignalBucket {
+  id                     String   @id @default(cuid())
+  buildingId             String
+  bucketAt               DateTime @db.Timestamptz(6)
+  bucketMinutes          Int
+  /// mpc_replay | sd_observed
+  sourceKind             String   @default("mpc_replay")
+  modelVersion           String   @default("mpc-v1")
+  calibrationFingerprint String?
+  pipelineRunId          String?
+  payload                Json
+  stepCount              Int      @default(0)
+  createdAt              DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt              DateTime @updatedAt @db.Timestamptz(6)
+
+  building Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  @@unique([buildingId, bucketAt, bucketMinutes, modelVersion, sourceKind])
+  @@index([buildingId, bucketMinutes, bucketAt(sort: Desc)])
+  @@index([buildingId, sourceKind, bucketMinutes, bucketAt(sort: Desc)])
+  @@map("sd_anlegg_control_signal_buckets")
+}
+
+/// Live MPC-tilstand: kalibrering, watermark, writeback-modus.
+model SdAnleggLiveMpcState {
+  buildingId             String   @id
+  lookbackDays           Int      @default(7)
+  modelVersion           String   @default("mpc-v1")
+  executionMode          MpcExecutionMode @default(SUPERVISORY)
+  calibrationFingerprint String
+  calibration            Json?
+  plantRmseC             Float?
+  emulatorMaeSupplySetpointC Float?
+  evalStart              DateTime? @db.Timestamptz(6)
+  evalEnd                DateTime? @db.Timestamptz(6)
+  replayWatermarkAt      DateTime? @db.Timestamptz(6)
+  /// Siste mpc-v1 day-ahead plan (bygget etter replay i cron/manuell kjøring).
+  forwardPlan            Json?
+  /// Map policyId → forward plan (mpc-v1, demand-scoped, …).
+  forwardPlans           Json?
+  /// Siste control-tick (15-min receding horizon etter SD-sync).
+  lastControlTickAt      DateTime? @db.Timestamptz(6)
+  /// Diff mot forrige forward plan ved siste tick.
+  lastPlanDiff           Json?
+  /// Aktiv settpunktvektor (u[0] etter regulator) fra siste tick.
+  activeCommand          Json?
+  /// Peker til aktiv eller sist fullførte simuleringsjobb.
+  activeSimulationJobId  String?  @unique
+  updatedAt              DateTime @updatedAt @db.Timestamptz(6)
+
+  building            Building                 @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  controlTicks        SdAnleggControlTick[]
+  activeSimulationJob SdAnleggMpcSimulationJob? @relation(fields: [activeSimulationJobId], references: [id], onDelete: SetNull)
+
+  @@map("sd_anlegg_live_mpc_states")
+}
+
+/// Audit-spor for lang eval-replay (historikk + aktiv jobb).
+model SdAnleggMpcSimulationJob {
+  id               String              @id @default(cuid())
+  buildingId       String
+  pipelineRunId    String?
+  status           MpcSimulationStatus @default(RUNNING)
+  executionMode    MpcExecutionMode    @default(SHADOW)
+  stepMinutes      Int                 @default(15)
+  triggerSource    String              @default("manual")
+  inputFingerprint String?
+  stepTotal        Int                 @default(0)
+  stepIndex        Int                 @default(0)
+  message          String?
+  startedAt        DateTime            @default(now()) @db.Timestamptz(6)
+  finishedAt       DateTime?           @db.Timestamptz(6)
+  durationMs       Int?
+  errorMessage     String?
+  /// Gjenopptak: replayIndex, loopState, inputFingerprint, pipelineRunId.
+  checkpoint       Json?
+  createdAt        DateTime            @default(now()) @db.Timestamptz(6)
+
+  building      Building               @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  pipelineRun   SdAnleggMpcPipelineRun? @relation(fields: [pipelineRunId], references: [id], onDelete: SetNull)
+  liveMpcState  SdAnleggLiveMpcState?
+
+  @@index([buildingId, createdAt(sort: Desc)])
+  @@index([buildingId, status])
+  @@map("sd_anlegg_mpc_simulation_jobs")
+}
+
+/// Logg per control-tick — plan-diff, aktiv kommando og effekt-estimat.
+model SdAnleggControlTick {
+  id                     String   @id @default(cuid())
+  buildingId             String
+  tickAt                 DateTime @db.Timestamptz(6)
+  triggerSource          String   @default("cron")
+  modelVersion           String   @default("mpc-v1")
+  calibrationFingerprint String
+  planDiff               Json?
+  activeCommand          Json
+  forwardPlanEffect      Json?
+  stateSnapshot          Json?
+  createdAt              DateTime @default(now()) @db.Timestamptz(6)
+
+  building     Building              @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  liveMpcState SdAnleggLiveMpcState @relation(fields: [buildingId], references: [buildingId], onDelete: Cascade, map: "sd_anlegg_control_ticks_live_mpc_state_fkey")
+
+  @@index([buildingId, tickAt(sort: Desc)])
+  @@map("sd_anlegg_control_ticks")
+}
+
+/// MPC-pipeline (mpc-v1) — historisk eval-replay og thesis-bevis.
+model SdAnleggMpcPipelineRun {
+  id                 String   @id @default(cuid())
+  buildingId         String
+  modelVersion       String   @default("mpc-v1")
+  executionMode      MpcExecutionMode @default(SHADOW)
+  stepMinutes        Int              @default(15)
+  evalStart          DateTime @db.Timestamptz(6)
+  evalEnd            DateTime @db.Timestamptz(6)
+  inputFingerprint   String
+  stepCount          Int
+  trainStepCount     Int
+  holdoutStepCount   Int
+  /// Kalibrering (emulator/plant/power) — eneste JSON-blob på run.
+  calibration        Json?
+  replayQuality      MpcReplayQuality?
+  signalBindingVersion String?
+  totalCostBaselineKr             Float?
+  totalCostEmulatedKr             Float?
+  totalCostMpcKr                  Float?
+  totalCostDemandKr               Float?
+  deltaCostKr                     Float?
+  deltaCostPct                    Float?
+  deltaCostVsEmulatedKr           Float?
+  deltaCostVsEmulatedPct          Float?
+  controllableElectricKwhBaseline Float?
+  controllableElectricKwhEmulated Float?
+  controllableElectricKwhMpc        Float?
+  controllableHeatKwhBaseline     Float?
+  controllableHeatKwhEmulated     Float?
+  controllableHeatKwhMpc          Float?
+  peakElectricKwBaseline          Float?
+  peakElectricKwEmulated          Float?
+  peakElectricKwMpc               Float?
+  fallbackSteps                   Int?
+  optimizablePct                  Float?
+  meaningfulDeltaPct              Float?
+  plantRmseC                      Float?
+  emulatorMaeSupplySetpointC      Float?
+  comfortViolationsMpc            Int?
+  comfortViolationsBaseline       Int?
+  comfortViolationsEmulated       Int?
+  comfortViolationsDemand         Int?
+  comfortViolationsObservedProxy  Int?
+  comfortViolationsHarmonizedObserved Int?
+  measuredElectricityKwh          Float?
+  measuredDistrictHeatingKwh       Float?
+  measuredTotalCostKr             Float?
+  proxyEmulatedCostKr             Float?
+  proxyMpcCostKr                  Float?
+  deltaMpcVsEmulatedCostKr        Float?
+  deltaMpcVsEmulatedCostPct       Float?
+  chartsGeneratedAt               DateTime? @db.Timestamptz(6)
+  persistStatus                   MpcPersistStatus?
+  persistedStepCount              Int?
+  persistError                    String?
+  uiArtifacts                     Json?
+  /// Siste end-to-end verifikasjon (replay-steg vs run-scalars).
+  verificationHealth              String?
+  verifiedAt                      DateTime? @db.Timestamptz(6)
+  createdAt          DateTime @default(now()) @db.Timestamptz(6)
+
+  building               Building                        @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  energyReconcileHours   SdAnleggMpcEnergyReconcileHour[]
+  replayStepRows         SdAnleggMpcPipelineReplayStep[]
+  supervisoryCommands    SdAnleggSupervisoryCommand[]
+  policyKpis             SdAnleggMpcPolicyKpi[]
+  chartPoints            SdAnleggMpcPipelineChartPoint[]
+  priceLoadShiftBands    SdAnleggMpcPriceLoadShiftBand[]
+  simulationJobs         SdAnleggMpcSimulationJob[]
+
+  @@unique([buildingId, inputFingerprint, modelVersion])
+  @@index([buildingId, createdAt])
+  @@index([buildingId, modelVersion, createdAt])
+  @@index([buildingId, replayQuality, createdAt])
+  @@index([buildingId, stepCount, createdAt(sort: Desc)])
+  @@map("sd_anlegg_mpc_pipeline_runs")
+}
+
+model SdAnleggMpcPolicyKpi {
+  id                     String   @id @default(cuid())
+  pipelineRunId          String
+  policyId               String
+  label                  String
+  claimLevel             String
+  totalCostKr            Float    @default(0)
+  deltaCostVsObservedKr  Float    @default(0)
+  deltaCostVsObservedPct Float    @default(0)
+  comfortViolations      Int      @default(0)
+  peakElectricKw         Float    @default(0)
+  controllableElectricKwh Float   @default(0)
+  controllableHeatKwh    Float    @default(0)
+  fallbackSteps          Int      @default(0)
+  deltaCostVsEmulatedKr  Float?
+  deltaCostVsEmulatedPct Float?
+  createdAt              DateTime @default(now()) @db.Timestamptz(6)
+
+  pipelineRun SdAnleggMpcPipelineRun @relation(fields: [pipelineRunId], references: [id], onDelete: Cascade)
+
+  @@unique([pipelineRunId, policyId])
+  @@index([pipelineRunId])
+  @@map("sd_anlegg_mpc_policy_kpis")
+}
+
+model SdAnleggMpcPipelineChartPoint {
+  id            String         @id @default(cuid())
+  pipelineRunId String
+  series        MpcChartSeries
+  bucketAt      DateTime       @db.Timestamptz(6)
+  baselineKr    Float?
+  mpcKr         Float?
+  deltaKr       Float?
+  extractMeasC  Float?
+  extractPredC  Float?
+  bandMinC      Float?
+  bandMaxC      Float?
+  baselineKw    Float?
+  mpcKw         Float?
+  emulatedKw    Float?
+  spotKrPerKwh  Float?
+  extractPredEmulatedC Float?
+  extractPredDemandC   Float?
+  comfortViolationMpc  Boolean?
+  createdAt     DateTime       @default(now()) @db.Timestamptz(6)
+
+  pipelineRun SdAnleggMpcPipelineRun @relation(fields: [pipelineRunId], references: [id], onDelete: Cascade)
+
+  @@unique([pipelineRunId, series, bucketAt])
+  @@index([pipelineRunId, series, bucketAt])
+  @@map("sd_anlegg_mpc_pipeline_chart_points")
+}
+
+model SdAnleggMpcPriceLoadShiftBand {
+  id            String           @id @default(cuid())
+  pipelineRunId String
+  band          MpcPriceLoadBand
+  baselineKwh   Float            @default(0)
+  mpcKwh        Float            @default(0)
+  deltaKwh      Float            @default(0)
+  deltaPct      Float?
+  createdAt     DateTime         @default(now()) @db.Timestamptz(6)
+
+  pipelineRun SdAnleggMpcPipelineRun @relation(fields: [pipelineRunId], references: [id], onDelete: Cascade)
+
+  @@unique([pipelineRunId, band])
+  @@map("sd_anlegg_mpc_price_load_shift_bands")
+}
+
+/// Per-bygg MPC-tuning-overrides (erstatter mpc-preferences.json).
+model SdAnleggMpcPreferences {
+  id         String   @id @default(cuid())
+  buildingId String   @unique
+  unitKey    String
+  overrides  Json
+  updatedAt  DateTime @updatedAt @db.Timestamptz(6)
+  createdAt  DateTime @default(now()) @db.Timestamptz(6)
+
+  building Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  @@map("sd_anlegg_mpc_preferences")
+}
+
+/// Timevis målt byggenergi (BHCC) vs kontrollerbar MPC-proxy per pipeline-run.
+model SdAnleggMpcEnergyReconcileHour {
+  id                         String   @id @default(cuid())
+  pipelineRunId              String
+  hour                       DateTime @db.Timestamptz(6)
+  measuredElectricityKwh     Float    @default(0)
+  measuredDistrictHeatingKwh Float    @default(0)
+  measuredCostKr             Float    @default(0)
+  proxyObservedElKwh         Float    @default(0)
+  proxyEmulatedElKwh         Float    @default(0)
+  proxyMpcElKwh              Float    @default(0)
+  proxyObservedHeatKwh       Float    @default(0)
+  proxyEmulatedHeatKwh       Float    @default(0)
+  proxyMpcHeatKwh            Float    @default(0)
+  proxyObservedCostKr        Float    @default(0)
+  proxyEmulatedCostKr        Float    @default(0)
+  proxyMpcCostKr             Float    @default(0)
+  createdAt                  DateTime @default(now()) @db.Timestamptz(6)
+
+  pipelineRun SdAnleggMpcPipelineRun @relation(fields: [pipelineRunId], references: [id], onDelete: Cascade)
+
+  @@unique([pipelineRunId, hour])
+  @@index([pipelineRunId, hour])
+  @@map("sd_anlegg_mpc_energy_reconcile_hours")
+}
+
+/// Normalisert eval-replay per pipeline-run — primær lagring for signaler og resultater.
+model SdAnleggMpcPipelineReplayStep {
+  id               String   @id @default(cuid())
+  pipelineRunId    String
+  buildingId       String
+  stepAt           DateTime @db.Timestamptz(6)
+  stepMinutes      Int      @default(15)
+  spotKrPerKwh     Float?
+  marginalKrPerKwh Float?
+  outdoorTempC     Float?
+  costObservedKr   Float?
+  costEmulatedKr   Float?
+  costMpcKr        Float?
+  costDemandKr     Float?
+  usedFallback     Boolean  @default(false)
+  fallbackReason   String?
+  proxyElKwhBaseline   Float?
+  proxyElKwhEmulated   Float?
+  proxyElKwhMpc        Float?
+  proxyElKwhDemand     Float?
+  proxyHeatKwhBaseline Float?
+  proxyHeatKwhEmulated Float?
+  proxyHeatKwhMpc      Float?
+  proxyHeatKwhDemand   Float?
+  electricKw           Float?
+  heatKw               Float?
+  buildingElectricityKwh     Float?
+  buildingDistrictHeatingKwh Float?
+  districtMeterTr003PowerKw    Float?
+  districtMeterTr003EnergyKwh  Float?
+  extractTempMeasC         Float?
+  extractTempPredC         Float?
+  extractTempPredEmulatedC Float?
+  extractTempPredDemandC   Float?
+  extractTempPredObservedC Float?
+  comfortBandMinC            Float?
+  comfortBandMaxC            Float?
+  comfortViolation         Boolean @default(false)
+  comfortViolationEmulated Boolean @default(false)
+  comfortViolationDemand   Boolean @default(false)
+  createdAt        DateTime @default(now()) @db.Timestamptz(6)
+
+  pipelineRun   SdAnleggMpcPipelineRun          @relation(fields: [pipelineRunId], references: [id], onDelete: Cascade)
+  building      Building                        @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  controlTracks SdAnleggMpcReplayControlTrack[]
+  signalValues  SdAnleggMpcReplaySignalValue[]
+
+  @@unique([pipelineRunId, stepAt, stepMinutes])
+  @@index([buildingId, stepAt])
+  @@index([buildingId, stepMinutes, stepAt])
+  @@index([pipelineRunId, stepAt])
+  @@index([pipelineRunId, usedFallback])
+  @@map("sd_anlegg_mpc_pipeline_replay_steps")
+}
+
+/// Kontrollvektor u[·] per policy-spor og replay-steg.
+model SdAnleggMpcReplayControlTrack {
+  id                    String          @id @default(cuid())
+  replayStepId          String
+  track                 MpcControlTrack
+  supplySetpointC       Float?
+  supplyFanPct          Float?
+  exhaustFanPct         Float?
+  heatingValvePct       Float?
+  coolingValvePct       Float?
+  districtTr002ValvePct Float?
+  districtTr003ValvePct Float?
+
+  replayStep SdAnleggMpcPipelineReplayStep @relation(fields: [replayStepId], references: [id], onDelete: Cascade)
+
+  @@unique([replayStepId, track])
+  @@index([replayStepId])
+  @@map("sd_anlegg_mpc_replay_control_tracks")
+}
+
+/// Signalverdi per canonicalId, policy-spor og replay-steg.
+model SdAnleggMpcReplaySignalValue {
+  id           String          @id @default(cuid())
+  replayStepId String
+  canonicalId  String
+  track        MpcControlTrack
+  value        Float?
+
+  replayStep SdAnleggMpcPipelineReplayStep @relation(fields: [replayStepId], references: [id], onDelete: Cascade)
+
+  @@unique([replayStepId, canonicalId, track])
+  @@index([replayStepId])
+  @@map("sd_anlegg_mpc_replay_signal_values")
+}
+
+/// Planlagte/observert pådrag per policy — full writeback-kø mot BMS.
+model SdAnleggSupervisoryCommand {
+  id            String   @id @default(cuid())
+  buildingId    String
+  pipelineRunId String
+  policyId      String
+  stepAt        DateTime @db.Timestamptz(6)
+  stepMinutes   Int      @default(15)
+  kind          String   @default("replay_step")
+  executionMode MpcExecutionMode @default(SUPERVISORY)
+  uProposed     Json
+  uReference    Json?
+  signals       Json?
+  status        MpcSupervisoryStatus @default(predicted)
+  mqttTopic     String?
+  bmsResponse   Json?
+  errorMessage  String?
+  approvedAt    DateTime? @db.Timestamptz(6)
+  publishedAt   DateTime? @db.Timestamptz(6)
+  acknowledgedAt DateTime? @db.Timestamptz(6)
+  appliedAt     DateTime? @db.Timestamptz(6)
+  createdAt     DateTime @default(now()) @db.Timestamptz(6)
+
+  building    Building              @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  pipelineRun SdAnleggMpcPipelineRun @relation(fields: [pipelineRunId], references: [id], onDelete: Cascade)
+
+  @@unique([pipelineRunId, policyId, stepAt, kind])
+  @@index([buildingId, policyId, stepAt])
+  @@index([buildingId, status, stepAt(sort: Desc)])
+  @@index([pipelineRunId, stepAt])
+  @@map("sd_anlegg_supervisory_commands")
+}
+
+/// Fast evalueringsperiode for thesis — alternativ/supplement til THESIS_EVAL_* env.
+model ThesisEvalPeriod {
+  id                  String   @id @default(cuid())
+  buildingId          String?
+  label               String
+  startDate           DateTime @db.Date
+  endDate             DateTime @db.Date
+  sdCoverageThreshold Float    @default(0.9)
+  isActive            Boolean  @default(false)
+  metadata            Json?    @default("{}")
+  createdAt           DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt           DateTime @updatedAt @db.Timestamptz(6)
+
+  building   Building?         @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  exportRuns ThesisExportRun[]
+
+  @@index([buildingId, isActive])
+  @@index([startDate, endDate])
+  @@map("thesis_eval_periods")
+}
+
+/// Sporbar export av thesis-resultater (manifest, fingerprint, status).
+model ThesisExportRun {
+  id               String    @id @default(cuid())
+  buildingId       String
+  evalPeriodId     String?
+  status           String    @default("pending")
+  inputFingerprint String?
+  manifest         Json?
+  errorMessage     String?
+  createdAt        DateTime  @default(now()) @db.Timestamptz(6)
+  completedAt      DateTime? @db.Timestamptz(6)
+
+  building   Building          @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  evalPeriod ThesisEvalPeriod? @relation(fields: [evalPeriodId], references: [id], onDelete: SetNull)
+
+  @@index([buildingId, createdAt])
+  @@index([evalPeriodId, status])
+  @@map("thesis_export_runs")
+}
+
+model Building {
+  id                                  String                               @id @default(cuid())
+  name                                String                               @unique
+  description                         String?
+  address                             String
+  postCode                            String
+  postalPlace                         String
+  region                              String
+  buildingSize                        Float
+  btaSqm                              Float?
+  tenantLeaseAreaCapBasis             AreaMeasurementBasis                 @default(BRA)
+  imageUrl                            String?
+  buildingYear                        Int?
+  municipalityNumber                  String?
+  municipalityName                    String?
+  propertyNumber                      String?
+  sectionNumber                       String?
+  shareNumber                         String?
+  shareHolderNumber                   String?
+  availableUnits                      String[]
+  buildingTypes                       String[]
+  createdAt                           DateTime                             @default(now())
+  updatedAt                           DateTime                             @updatedAt
+  selectedGridOperatorId              String?
+  slug                                String?                              @unique
+  applicableTEKStandard               String?
+  targetTEKStandard                   String?                              @default("TEK17")
+  climateTargets                      Json?
+  comfortTargets                      Json?
+  energyLabelTarget                   String?
+  gapAnalysisFrequency                String?                              @default("ANNUAL")
+  lastGapAnalysisAt                   DateTime?
+  passivehusTarget                    Boolean                              @default(false)
+  buildingCategories                  String[]                             @default([])
+  latitude                            Float?
+  longitude                           Float?
+  addresses                           BuildingAddress[]                    @relation("BuildingAddresses")
+  BuildingHourlyCosts                 BuildingHourlyCostCache[]
+  selectedGridOperator                GridOperator?                        @relation(fields: [selectedGridOperatorId], references: [id])
+  meteringPointLinks                  MeteringPointToBuildings[]
+  meteringPoints                      MeteringPoint[]
+  /// Satt når spot/tariff el.l. endrer seg slik at BHCC/dag-rollup bør kjøres på nytt selv om måler-cache ikke får ny `calculatedAt`. Nullstilles etter vellykket rollup i `hourly-costs.sync`.
+  costRollupInvalidatedAt             DateTime?                            @db.Timestamptz(6)
+  allocationMethod                    String?
+  /// Gjeldende spor etter siste aktivert fordelingsnøkkel. Null: ikke satt (eldre bygg / ingen aktivering ennå).
+  /// Ved lesing utledes effektivt spor fra aktiv nøkkels `source` når den avviker fra dette feltet (se server batch-status).
+  allocationTrack                     AllocationTrack?
+  infraspawnSources                   InfraspawnSource[]
+  infraspawnAlarmEvents               InfraspawnAlarmEvent[]
+  sdAnleggSiteProfile                 SdAnleggSiteProfile?
+  sdAnleggMpcPipelineRuns             SdAnleggMpcPipelineRun[]
+  sdAnleggMpcPipelineReplaySteps     SdAnleggMpcPipelineReplayStep[]
+  sdAnleggMpcPreferences              SdAnleggMpcPreferences?
+  sdAnleggMpcReplaySteps              SdAnleggMpcReplayStep[]
+  sdAnleggControlSignalHours          SdAnleggControlSignalHour[]
+  sdAnleggControlSignalBuckets        SdAnleggControlSignalBucket[]
+  sdAnleggSupervisoryCommands         SdAnleggSupervisoryCommand[]
+  sdAnleggLiveMpcState                SdAnleggLiveMpcState?
+  sdAnleggMpcSimulationJobs           SdAnleggMpcSimulationJob[]
+  sdAnleggControlTicks                SdAnleggControlTick[]
+  thesisEvalPeriods                   ThesisEvalPeriod[]
+  thesisExportRuns                    ThesisExportRun[]
+  weatherStation                      BuildingWeatherStation?
+
+  // --- Metering topology (sub-metering refactor) ---
+  // Bestemmer hvilken "total energi"-formel som gjelder for bygget.
+  // SUB_METER_ONLY: alle målere er interne (Travbanevegen 2). Total = Hovedfordeling.
+  // GRID_AMS_ONLY: kun AMS på nettpunkt. Total = AMS-import + fjernvarme + fjernkjøling.
+  // KPI-er flagges som "foreløpige" inntil meteringTopologyVerifiedAt er satt.
+  meteringTopology             BuildingMeteringTopology @default(UNKNOWN)
+  meteringTopologyVerifiedAt   DateTime?
+  meteringTopologyNotes        String?
+  hasUnregisteredHeatSource    Boolean                  @default(false)
+  hasUnregisteredCoolingSource Boolean                  @default(false)
+
+  @@unique([name, address])
+  @@index([municipalityNumber, propertyNumber, sectionNumber])
+  @@index([municipalityNumber, propertyNumber, sectionNumber, shareNumber])
+  @@index([address, postCode])
+  @@index([postCode])
+  @@index([buildingCategories])
+  @@index([buildingYear])
+  @@index([region])
+  @@index([selectedGridOperatorId])
+  @@index([name])
+  @@index([slug])
+  @@index([latitude], map: "buildings_lat_idx")
+  @@index([longitude], map: "buildings_lon_idx")
+  @@index([meteringTopology], map: "buildings_metering_topology_idx")
+  @@index([costRollupInvalidatedAt])
+  @@index([allocationTrack])
+  @@map("buildings")
+}
+
+model BuildingAddress {
+  id             String   @id @default(cuid())
+  buildingId     String
+  address        String
+  normalizedAddr String
+  postCode       String
+  postalPlace    String
+  isPrimary      Boolean  @default(false)
+  numberFrom     Int?
+  numberTo       Int?
+  letterFrom     String?
+  letterTo       String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  building       Building @relation("BuildingAddresses", fields: [buildingId], references: [id], onDelete: Cascade)
+
+  @@unique([buildingId, normalizedAddr, postCode], map: "building_addresses_buildingid_normalizedaddr_postcode_key")
+  @@index([buildingId])
+  @@index([normalizedAddr, postCode])
+  @@map("building_addresses")
+}
+
+model WeatherStation {
+  id        String                  @id
+  name      String?
+  lat       Float
+  lon       Float
+  elevation Float?
+  createdAt DateTime                @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime                @updatedAt @db.Timestamptz(6)
+  buildingLinks BuildingWeatherStation[]
+  series        WeatherSeries[]
+
+  @@map("weather_stations")
+}
+
+model WeatherSeries {
+  id           String               @id
+  stationId    String
+  elementId    String
+  resolution   String
+  level        Int?
+  unit         String?
+  createdAt    DateTime             @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime             @updatedAt @db.Timestamptz(6)
+  observations WeatherObservation[]
+  station      WeatherStation       @relation(fields: [stationId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "weather_series_station_fk")
+
+  @@unique([stationId, elementId, resolution, level], map: "weather_series_unique")
+  @@index([elementId, resolution], map: "weather_series_element_resolution_idx")
+  @@index([stationId], map: "weather_series_station_idx")
+  @@map("weather_series")
+}
+
+model WeatherObservation {
+  seriesId      String
+  referenceTime DateTime      @db.Timestamptz(6)
+  value         Decimal?      @db.Decimal
+  qualityCode   Int?
+  createdAt     DateTime      @default(now()) @db.Timestamptz(6)
+  series        WeatherSeries @relation(fields: [seriesId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "weather_observations_series_fk")
+
+  @@id([seriesId, referenceTime], map: "weather_observations_pk")
+  @@index([referenceTime], map: "weather_observations_ref_time_idx")
+  @@map("weather_observations")
+}
+
+model BuildingWeatherStation {
+  buildingId           String         @id
+  stationId            String
+  stationName          String?
+  distanceKm           Float
+  primaryResolution    String
+  resolutionsAvailable String[]       @default([])
+  chosenAt             DateTime       @default(now()) @db.Timestamptz(6)
+  method               String         @default("distance_then_resolution_5km")
+  firstObservationAt   DateTime?      @db.Timestamptz(6)
+  lastObservationAt    DateTime?      @db.Timestamptz(6)
+  building             Building       @relation(fields: [buildingId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "building_weather_station_building_fk")
+  station              WeatherStation @relation(fields: [stationId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "building_weather_station_station_fk")
+
+  @@index([stationId], map: "building_weather_station_station_idx")
+  @@map("building_weather_station")
+}
+
+model MeteringPoint {
+  id                    String                @id @default(cuid())
+  mpid                  String                @unique
+  name                  String?
+  address               String?
+  postalCode            String?
+  postalPlace           String?
+  region                String?
+  type                  MeteringPointType     @default(ELECTRICITY)
+  BRA                   String?
+  BTA                   String?
+  intensityAreaBasis    AreaMeasurementBasis?
+  isActive              Boolean               @default(true)
+  lastFetchedAt         DateTime?
+  createdAt             DateTime              @default(now())
+  clerkOrgId            String
+  buildingId            String?
+  firstObservationAt    DateTime?
+  lastObservationAt     DateTime?
+  technicalSharePct     Float?
+  integrationId         String?
+  backfillState         BackfillState         @default(BASELINE)
+  backfillCursorFrom    DateTime?
+  backfillEmptyStreak   Int                   @default(0)
+  backfillNextRunAt     DateTime?
+  apiFirstObservationAt DateTime?
+  apiLastObservationAt  DateTime?
+  parentMeteringPointId String?
+  isSubMeter            Boolean               @default(false)
+  /// @deprecated Bruk `flowStage` + `hierarchyRole` (sub-metering refactor Fase 4).
+  /// Kolonnen beholdes inntil alle dashboards er migrert til
+  /// computeTotalForTopology fra src/lib/energy-totals.
+  includeInTotal        Boolean               @default(true)
+  subMeterCategory      SubMeterCategory?
+  subMeterSubCategory   SubMeterSubCategory?
+  subMeterLabel         String?
+  meterLocation         String? // Fysisk plassering, f.eks. "Hovedtavle 432.101", "Ventilasjonsrom Kjeller"
+  externalSubMeterId    String?
+  folderId              String?
+  isIncremental         Boolean               @default(false)
+  lastImportRawValue    Float?
+  lastImportRawTime     DateTime?
+
+  // --- Energi-flow-klassifisering (sub-metering refactor) ---
+  // Hvor i energiflyten sitter måleren (skiller produksjon fra distribusjon for varme/kjøling)
+  flowStage           EnergyFlowStage?
+  // Hierarki-rolle: TOTAL/BRANCH/LEAF/STANDALONE — eksplisitt vs avledet fra parentMeteringPointId
+  hierarchyRole       MeterHierarchyRole?
+  // Fysisk CT/varmemåler-plassering — kritisk for korrekt PV-tolkning og dobbelttellings-vern
+  ctPlacement         CtPlacement?
+  // Hvor energien i denne måleren kommer fra. Brukes for DISTRIBUTION-målere som
+  // stammer fra en PRODUCTION_GROSS-måler — løser dobbelttelling på tvers av bærere.
+  // Eksempel: gulvvarme-måler.energySourcedFromId = varmepumpe-måler.id
+  energySourcedFromId String?
+  // Når og av hvem ble klassifiseringen satt (for "needs review"-kø)
+  classifiedAt        DateTime?
+  classifiedByUserId  String?
+  classificationNotes String?
+  verificationStatus  MeterVerificationStatus @default(AUTO)
+  // Eksplisitt kundevalg for om en måler er fakturerbar eller ikke
+  isTenantBillable    Boolean?
+
+  energySourcedFrom MeteringPoint?  @relation("EnergyFlow", fields: [energySourcedFromId], references: [id], onDelete: SetNull)
+  energyFlowsTo     MeteringPoint[] @relation("EnergyFlow")
+  classifiedBy      User?           @relation("MeteringPointClassifier", fields: [classifiedByUserId], references: [id], onDelete: SetNull)
+
+  districtHeatingMeasurements DistrictHeatingMeasurement[]
+  buildingLinks               MeteringPointToBuildings[]
+  building                    Building?                              @relation(fields: [buildingId], references: [id])
+  organizations               Organization                           @relation(fields: [clerkOrgId], references: [clerkOrgId])
+  integration                 Integration?                           @relation(fields: [integrationId], references: [id], onUpdate: NoAction)
+  accumulatedObservations     AccumulatedObservation[]
+  observations                Observation[]
+  parentMeteringPoint         MeteringPoint?                         @relation("SubMeters", fields: [parentMeteringPointId], references: [id], onDelete: SetNull)
+  subMeters                   MeteringPoint[]                        @relation("SubMeters")
+  placements                  MeteringPointPlacement[]
+
+  @@index([mpid])
+  @@index([clerkOrgId])
+  @@index([buildingId])
+  @@index([integrationId])
+  @@index([isActive])
+  @@index([lastFetchedAt])
+  @@index([firstObservationAt])
+  @@index([lastObservationAt])
+  @@index([backfillState])
+  @@index([backfillNextRunAt])
+  @@index([apiFirstObservationAt])
+  @@index([apiLastObservationAt])
+  @@index([parentMeteringPointId])
+  @@index([externalSubMeterId])
+  @@index([isSubMeter])
+  @@index([includeInTotal])
+  @@index([folderId])
+  @@index([name]) // For søk på navn
+  @@index([clerkOrgId, buildingId], map: "metering_points_org_buildingid_idx")
+  @@index([clerkOrgId, isActive], map: "metering_points_org_isactive_idx")
+  @@index([clerkOrgId, lastObservationAt], map: "metering_points_org_lastobservationat_idx")
+  @@index([clerkOrgId, type], map: "metering_points_org_type_idx")
+  @@index([type, isActive], map: "metering_points_type_isactive_idx") // For filtrering på type + status
+  @@index([clerkOrgId, type, isActive], map: "metering_points_org_type_isactive_idx") // Sammensatt for dashboard
+  @@index([type, lastObservationAt], map: "metering_points_type_lastobs_idx") // For sortering per type
+  @@index([isActive, lastObservationAt, id], map: "mp_active_lastobs_id_idx")
+  @@index([flowStage], map: "metering_points_flow_stage_idx")
+  @@index([hierarchyRole], map: "metering_points_hierarchy_role_idx")
+  @@index([ctPlacement], map: "metering_points_ct_placement_idx")
+  @@index([energySourcedFromId], map: "metering_points_energy_sourced_from_idx")
+  @@index([buildingId, flowStage], map: "metering_points_building_flow_stage_idx")
+  @@map("metering_points")
+}
+
+model MeteringPointPlacement {
+  id              String @id @default(cuid())
+  meteringPointId String
+
+  // Valgfri kobling til versjonert arealgrunnlag eller direkte plantegning
+  areaPlanVersionId   String?
+  areaSpaceSnapshotId String?
+  floorPlanId         String?
+
+  // Hvor stor del (%) av målepunktet som dekkes av denne plasseringen (valgfritt).
+  // Brukes når et målepunkt kobles til flere rom/områder.
+  coveragePct Float?
+
+  // UI-ankring (f.eks. {x,y} + koordinatsystem)
+  anchorJson Json
+  metadata   Json?
+  createdAt  DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt  DateTime @updatedAt @db.Timestamptz(6)
+
+  meteringPoint     MeteringPoint      @relation(fields: [meteringPointId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([meteringPointId], map: "mpp_meteringpoint_idx")
+  @@index([areaPlanVersionId], map: "mpp_areaplanversion_idx")
+  @@index([areaSpaceSnapshotId], map: "mpp_areasnapshot_idx")
+  @@index([floorPlanId], map: "mpp_floorplan_idx")
+  @@map("metering_point_placements")
+}
+
+model MeteringPointToBuildings {
+  id              String        @id @default(cuid())
+  meteringPointId String
+  buildingId      String
+  matchMethod     String?
+  confidence      Float?
+  isPrimary       Boolean       @default(false)
+  weightPct       Float?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  building        Building      @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  meteringPoint   MeteringPoint @relation(fields: [meteringPointId], references: [id], onDelete: Cascade)
+
+  @@unique([meteringPointId, buildingId], map: "metering_point_to_buildings_unique")
+  @@index([meteringPointId])
+  @@index([buildingId])
+  @@map("metering_point_to_buildings")
+}
+
+model Observation {
+  id              String               @id @default(cuid())
+  /// Lokalt/legacy tidspunkt (ofte norsk offset i eldre synk); prefer `utcTime` for aggregering.
+  time            DateTime
+  /// Kanonisk tidsstempel for bucket/agregat; unik per måler sammen med `meteringPointId`.
+  utcTime         DateTime
+  direction       String
+  method          String
+  /// Mengde i intervallet — kWh for energibærere; vann bruker samme kolonne med annen tolkning (se modellkommentar over).
+  volume_kwh      Float
+  meteringPointId String
+  meteringPoint   MeteringPoint        @relation(fields: [meteringPointId], references: [id])
+
+  // Anomaly review fields - when set, the observation is excluded from anomaly detection
+  reviewedAt       DateTime? @db.Timestamptz(6)
+  reviewedByUserId String?
+  reviewedByUser   User?     @relation(fields: [reviewedByUserId], references: [id])
+
+  /// Én rad per (målepunkt, utcTime); hindrer duplikater ved gjenimport.
+  @@unique([meteringPointId, utcTime])
+  @@index([meteringPointId])
+  @@index([time])
+  @@index([utcTime])
+  @@index([meteringPointId, time])
+  @@index([meteringPointId, utcTime])
+  @@index([meteringPointId, time, volume_kwh])
+  @@map("observations")
+}
+
+model AccumulatedObservation {
+  id                       String               @id
+  meteringPointId          String?
+  importPlaceholderMeterId String?
+  source                   IntegrationProvider?
+  sourceTimestampRaw       String
+  sourceTimestampParsed    DateTime?
+  rawValue                 Float
+  createdAt                DateTime             @default(now())
+
+  meteringPoint          MeteringPoint?          @relation(fields: [meteringPointId], references: [id], onDelete: Cascade)
+
+  @@unique([meteringPointId, sourceTimestampRaw])
+  @@unique([importPlaceholderMeterId, sourceTimestampRaw])
+  @@index([meteringPointId, sourceTimestampParsed])
+  @@index([importPlaceholderMeterId, sourceTimestampParsed])
+  @@index([source])
+  @@index([createdAt])
+  @@map("accumulated_observations")
+}
+
+model DistrictHeatingMeasurement {
+  id              String        @id @default(cuid())
+  time            DateTime
+  utcTime         DateTime
+  meteringPointId String
+  energyKwh       Float?
+  flowM3h         Float?
+  forwardTempC    Float?
+  returnTempC     Float?
+  diffTempK       Float?
+  volumeM3        Float?
+  resolution      String        @default("hour")
+  metadata        Json?
+  createdAt       DateTime      @default(now())
+  meteringPoint   MeteringPoint @relation(fields: [meteringPointId], references: [id], onDelete: Cascade)
+
+  @@unique([meteringPointId, utcTime])
+  @@index([meteringPointId, time])
+  @@index([meteringPointId, resolution])
+  @@index([time])
+  @@index([utcTime])
+  @@map("district_heating_measurements")
+}
+
+model DailyEnergyPrices {
+  id           String             @id @default(cuid())
+  date         DateTime?
+  averagePrice Float?
+  areaCode     String?
+  /// `NORD_POOL` = spotpriser.csv / Nord Pool. `ENTSOE` = day-ahead sync. ENTSO-E overskriver ikke NORD_POOL.
+  source       EnergyPriceSource?
+  avg7d        Float?
+  avg30d       Float?
+  avg365d      Float?
+  trend7dPct   Float?
+  trend30dPct  Float?
+  trend365dPct Float?
+  createdAt    DateTime           @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime           @updatedAt @db.Timestamptz(6)
+
+  @@unique([date, areaCode])
+  @@index([date])
+  @@index([areaCode])
+  @@index([date, areaCode, averagePrice])
+  @@index([date, areaCode], map: "daily_energy_prices_date_area_idx")
+  @@index([updatedAt])
+  @@map("daily_energy_prices")
+}
+
+model HourlyEnergyPrices {
+  id        String             @id @default(cuid())
+  date      DateTime?
+  hour      Int?
+  /// Spotpris i **kr/kWh** (ikke øre/kWh). Kostlag multipliserer med 100 ved behov.
+  price     Float?
+  areaCode  String?
+  /// Se `EnergyPriceSource` – CSV/Nord Pool har prioritet over ENTSO-E.
+  source    EnergyPriceSource?
+  createdAt DateTime           @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime           @updatedAt @db.Timestamptz(6)
+
+  @@unique([date, hour, areaCode])
+  @@index([date, hour])
+  @@index([areaCode])
+  @@index([date, areaCode])
+  @@index([areaCode, date, price], map: "hourly_energy_prices_area_date_price_idx")
+  @@index([date, hour, areaCode, price])
+  @@index([updatedAt])
+  @@map("hourly_energy_prices")
+}
+
+/// Kanonisk ENTSO-E day-ahead (PT15M). Time/dag avledes som aritmetisk snitt.
+model QuarterHourlyEnergyPrices {
+  id        String             @id @default(cuid())
+  date      DateTime?          @db.Timestamptz(6)
+  hour      Int?
+  /// 0–3 (= :00, :15, :30, :45 UTC innen `hour`)
+  quarter   Int?
+  /// Spotpris i **kr/kWh**
+  price     Float?
+  areaCode  String?
+  source    EnergyPriceSource?
+  createdAt DateTime           @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime           @updatedAt @db.Timestamptz(6)
+
+  @@unique([date, hour, quarter, areaCode])
+  @@index([date, hour, quarter])
+  @@index([areaCode])
+  @@index([date, areaCode])
+  @@index([areaCode, date, price], map: "quarter_hourly_energy_prices_area_date_price_idx")
+  @@index([updatedAt])
+  @@map("quarter_hourly_energy_prices")
+}
+
+model GridOperator {
+  id                         String                      @id @default(cuid())
+  name                       String                      @unique
+  organizationNumber         String                      @unique
+  counties                   String[]
+  active                     Boolean                     @default(true)
+  createdAt                  DateTime                    @default(now())
+  updatedAt                  DateTime                    @updatedAt
+  buildings                  Building[]
+  gridTariffs                GridTariff[]
+
+  @@index([organizationNumber])
+  @@map("grid_operators")
+}
+
+model GridTariff {
+  id                         String                       @id @default(cuid())
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @updatedAt
+  gridOperatorId             String
+  county                     String
+  timestamp                  DateTime
+  tariffGroup                Int
+  energyLink                 Float
+  fixedLink                  Float
+  capacityLink               Float?
+  powerStageFromKw           Float?
+  powerstageToKw             Float?
+  basisPowerStage            String?
+  yearTrend                  Float
+  monthTrend                 Float?
+  weekTrend                  Float?
+  gridOperator               GridOperator                 @relation(fields: [gridOperatorId], references: [id], onDelete: Cascade)
+
+  @@unique([gridOperatorId, county, timestamp, tariffGroup, powerStageFromKw, powerstageToKw])
+  @@index([gridOperatorId])
+  @@index([county])
+  @@index([timestamp])
+  @@index([powerStageFromKw, powerstageToKw])
+  @@map("grid_tariffs")
+}
+
+model BuildingHourlyCostCache {
+  id         String   @id @default(cuid())
+  buildingId String
+  hour       DateTime @db.Timestamptz(6)
+
+  // Elektrisitet
+  electricitySpotCost           Float  @default(0)
+  electricityGridEnergyCost     Float  @default(0)
+  electricityFixedAllocKr       Float  @default(0)
+  electricityTotalCost          Float  @default(0)
+  electricityConsumptionTaxCost Float  @default(0)
+  electricityVolumeKwh          Float?
+  electricityPriceNokPerKwh     Float?
+
+  // Termisk kjøling (MP-type COOLING) — samme struktur som elektrisitet; ikke blandes med electricity*.
+  coolingSpotCost           Float  @default(0)
+  coolingGridEnergyCost     Float  @default(0)
+  coolingFixedAllocKr       Float  @default(0)
+  coolingTotalCost          Float  @default(0)
+  coolingConsumptionTaxCost Float  @default(0)
+  coolingVolumeKwh          Float?
+  coolingPriceNokPerKwh     Float?
+
+  // Produksjon (MP-type PRODUCTION)
+  productionSpotCost           Float  @default(0)
+  productionGridEnergyCost     Float  @default(0)
+  productionFixedAllocKr       Float  @default(0)
+  productionTotalCost          Float  @default(0)
+  productionConsumptionTaxCost Float  @default(0)
+  productionVolumeKwh          Float?
+  productionPriceNokPerKwh     Float?
+
+  // Fjernvarme
+  districtHeatingSpotCost       Float  @default(0)
+  districtHeatingDiscountAmount Float  @default(0)
+  districtHeatingEffectCost     Float  @default(0)
+  districtHeatingFixedCost      Float  @default(0)
+  districtHeatingNetworkCost    Float  @default(0)
+  districtHeatingAdminCost      Float  @default(0)
+  districtHeatingElectricityTax Float  @default(0)
+  districtHeatingTotalCost      Float  @default(0)
+  districtHeatingVolumeKwh      Float?
+  districtHeatingPriceNokPerKwh Float?
+
+  /// Kilde for spotpris brukt i rollup (NORD_POOL / ENTSOE).
+  spotPriceSource EnergyPriceSource?
+  /// Identifiserer hvilken sync-jobb/pipeline som produserte raden.
+  rollupSource    String             @default("building_hourly_costs_sync")
+
+  calculatedAt DateTime @default(now()) @db.Timestamptz(6)
+  building     Building @relation(fields: [buildingId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([buildingId, hour])
+  @@index([buildingId])
+  @@index([hour])
+  @@index([buildingId, hour], map: "bhcc_building_hour_idx")
+  @@index([calculatedAt])
+  @@map("building_hourly_cost_cache")
+}

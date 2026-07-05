@@ -1,0 +1,603 @@
+{
+  "modelVersion": "mpc-v1.1-building",
+  "evalStart": "2026-06-24T00:00:00.000Z",
+  "evalEnd": "2026-07-04T00:00:00.000Z",
+  "evalPeriodEnd": "2026-07-03",
+  "generatedAt": "2026-07-05T11:46:46.675Z",
+  "replaySummary": {
+    "stepCount": 936,
+    "fallbackSteps": 47,
+    "optimizedSteps": 889,
+    "optimizableSteps": 889,
+    "optimizablePct": 0.95,
+    "fallbackPct": 0.05,
+    "fallbackByReason": {
+      "missing_u_meas": 0,
+      "simultaneous_heat_cool": 0,
+      "alarm": 14,
+      "pump_fault": 33
+    },
+    "skippedSteps": 0,
+    "comfortViolationsMpc": 6,
+    "comfortViolationsBaseline": 0,
+    "comfortViolationsEmulated": 9,
+    "comfortViolationsDemand": 8,
+    "comfortViolationsObservedProxy": 0,
+    "comfortViolationsHarmonizedObserved": 4,
+    "totalCostBaselineKr": 390.18,
+    "totalCostEmulatedKr": 394.27,
+    "totalCostMpcKr": 383.41,
+    "totalCostDemandKr": 386.6,
+    "deltaCostDemandKr": -3.57,
+    "deltaCostDemandPct": -0.9,
+    "deltaCostKr": -6.77,
+    "deltaCostPct": -1.7,
+    "deltaCostVsEmulatedKr": -10.87,
+    "deltaCostVsEmulatedPct": -2.8,
+    "peakElectricKwBaseline": 1.7,
+    "peakElectricKwEmulated": 1.7,
+    "peakElectricKwMpc": 1.7,
+    "peakElectricKwDemand": 1.7,
+    "controllableElectricKwhBaseline": 71.67,
+    "controllableElectricKwhEmulated": 74.38,
+    "controllableElectricKwhMpc": 66.94,
+    "controllableHeatKwhBaseline": 449.93,
+    "controllableHeatKwhEmulated": 455.03,
+    "controllableHeatKwhMpc": 450.05,
+    "controllableElectricKwhDemand": 69.43,
+    "controllableHeatKwhDemand": 455.03,
+    "meaningfulDeltaSteps": 465,
+    "meaningfulDeltaPct": 49.7,
+    "mpcVsObservedDeltaSteps": 465,
+    "mpcVsObservedDeltaPct": 49.7,
+    "mpcVsObservedEligibleSteps": 936,
+    "heatingActiveStepPct": 69.55,
+    "measuredTr003HeatKwh": 515,
+    "policySummaries": [
+      {
+        "policyId": "observed",
+        "label": "Målt",
+        "thesisLabel": "Målt BMS",
+        "controlMode": "measured",
+        "controlModeLabel": "Målt drift",
+        "role": "reference",
+        "claimLevel": "observed",
+        "totalCostKr": 390.18,
+        "deltaCostVsObservedKr": 0,
+        "deltaCostVsObservedPct": 0,
+        "comfortViolations": 4,
+        "peakElectricKw": 1.7,
+        "controllableElectricKwh": 71.67,
+        "controllableHeatKwh": 449.93
+      },
+      {
+        "policyId": "emulated",
+        "label": "Forventet",
+        "thesisLabel": "Forventet BMS",
+        "controlMode": "predicted_baseline",
+        "controlModeLabel": "Forventet drift",
+        "role": "reference",
+        "claimLevel": "predicted",
+        "totalCostKr": 394.27,
+        "deltaCostVsObservedKr": 4.09,
+        "deltaCostVsObservedPct": 1,
+        "comfortViolations": 9,
+        "peakElectricKw": 1.7,
+        "controllableElectricKwh": 74.38,
+        "controllableHeatKwh": 455.03
+      },
+      {
+        "policyId": "demand-scoped",
+        "label": "Prisregler",
+        "thesisLabel": "Prisregler",
+        "controlMode": "price_responsive_rules",
+        "controlModeLabel": "Pris og vær",
+        "role": "comparator",
+        "claimLevel": "simulated",
+        "totalCostKr": 386.6,
+        "deltaCostVsObservedKr": -3.58,
+        "deltaCostVsObservedPct": -0.9,
+        "comfortViolations": 8,
+        "peakElectricKw": 1.7,
+        "controllableElectricKwh": 69.43,
+        "controllableHeatKwh": 455.03
+      },
+      {
+        "policyId": "mpc-v1",
+        "label": "MPC",
+        "thesisLabel": "MPC",
+        "controlMode": "horizon_coupled_mpc",
+        "controlModeLabel": "Horisont-MPC",
+        "role": "proposed",
+        "claimLevel": "simulated",
+        "totalCostKr": 383.41,
+        "deltaCostVsObservedKr": -6.77,
+        "deltaCostVsObservedPct": -1.7,
+        "comfortViolations": 6,
+        "peakElectricKw": 1.7,
+        "controllableElectricKwh": 66.94,
+        "controllableHeatKwh": 450.05
+      }
+    ]
+  },
+  "policyComparison": [
+    {
+      "policyId": "observed",
+      "label": "Målt",
+      "thesisLabel": "Målt BMS",
+      "controlMode": "measured",
+      "controlModeLabel": "Målt drift",
+      "role": "reference",
+      "claimLevel": "observed",
+      "totalCostKr": 390.18,
+      "deltaCostVsObservedKr": 0,
+      "deltaCostVsObservedPct": 0,
+      "comfortViolations": 4,
+      "peakElectricKw": 1.7,
+      "controllableElectricKwh": 71.67,
+      "controllableHeatKwh": 449.93
+    },
+    {
+      "policyId": "emulated",
+      "label": "Forventet",
+      "thesisLabel": "Forventet BMS",
+      "controlMode": "predicted_baseline",
+      "controlModeLabel": "Forventet drift",
+      "role": "reference",
+      "claimLevel": "predicted",
+      "totalCostKr": 394.27,
+      "deltaCostVsObservedKr": 4.09,
+      "deltaCostVsObservedPct": 1,
+      "comfortViolations": 9,
+      "peakElectricKw": 1.7,
+      "controllableElectricKwh": 74.38,
+      "controllableHeatKwh": 455.03
+    },
+    {
+      "policyId": "demand-scoped",
+      "label": "Prisregler",
+      "thesisLabel": "Prisregler",
+      "controlMode": "price_responsive_rules",
+      "controlModeLabel": "Pris og vær",
+      "role": "comparator",
+      "claimLevel": "simulated",
+      "totalCostKr": 386.6,
+      "deltaCostVsObservedKr": -3.58,
+      "deltaCostVsObservedPct": -0.9,
+      "comfortViolations": 8,
+      "peakElectricKw": 1.7,
+      "controllableElectricKwh": 69.43,
+      "controllableHeatKwh": 455.03
+    },
+    {
+      "policyId": "mpc-v1",
+      "label": "MPC",
+      "thesisLabel": "MPC",
+      "controlMode": "horizon_coupled_mpc",
+      "controlModeLabel": "Horisont-MPC",
+      "role": "proposed",
+      "claimLevel": "simulated",
+      "totalCostKr": 383.41,
+      "deltaCostVsObservedKr": -6.77,
+      "deltaCostVsObservedPct": -1.7,
+      "comfortViolations": 6,
+      "peakElectricKw": 1.7,
+      "controllableElectricKwh": 66.94,
+      "controllableHeatKwh": 450.05
+    }
+  ],
+  "emulatorValidation": {
+    "comparedSteps": 281,
+    "mae": {
+      "supplySetpointC": 0.3,
+      "supplyFanPct": 0.15,
+      "exhaustFanPct": 0.22,
+      "heatingValvePct": 1.07,
+      "coolingValvePct": 7.71
+    },
+    "heatingModeAccuracy": 24.9,
+    "coolingModeAccuracy": 100
+  },
+  "plantValidation": {
+    "comparedSteps": 280,
+    "maeC": 0.15,
+    "rmseC": 0.26,
+    "multiStep": [
+      {
+        "horizonHours": 4,
+        "horizonSteps": 16,
+        "comparedStarts": 265,
+        "maeC": 0.25,
+        "rmseC": 0.41
+      },
+      {
+        "horizonHours": 12,
+        "horizonSteps": 48,
+        "comparedStarts": 233,
+        "maeC": 0.26,
+        "rmseC": 0.44
+      },
+      {
+        "horizonHours": 24,
+        "horizonSteps": 96,
+        "comparedStarts": 185,
+        "maeC": 0.28,
+        "rmseC": 0.48
+      }
+    ],
+    "featureScope": [
+      {
+        "featureId": "t_ext_prev",
+        "label": "Forrige avtrekkstemp.",
+        "category": "state",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "supply_setpoint",
+        "label": "Tilluft SP",
+        "category": "control",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "supply_fan",
+        "label": "Tilluftvifte",
+        "category": "control",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "exhaust_fan",
+        "label": "Avtrekkvifte",
+        "category": "control",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "heat_valve",
+        "label": "Varmeventil",
+        "category": "control",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "cool_valve",
+        "label": "Kjøleventil",
+        "category": "control",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "outdoor_temp",
+        "label": "Utetemp.",
+        "category": "disturbance",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "solar_proxy",
+        "label": "Sol-proxy",
+        "category": "disturbance",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "hour_sin",
+        "label": "Time (sin)",
+        "category": "time",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "hour_cos",
+        "label": "Time (cos)",
+        "category": "time",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "weekend",
+        "label": "Helg",
+        "category": "time",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "supply_temp_meas",
+        "label": "Tilluft temp. (målt)",
+        "category": "observation",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "intake_temp_meas",
+        "label": "Inntak temp. (målt)",
+        "category": "observation",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "heat_recovery_after_temp",
+        "label": "Temp. etter gjenvinner",
+        "category": "observation",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "extract_setpoint",
+        "label": "Avtrekk SP (lokal BMS)",
+        "category": "disturbance",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "supply_fan_flow",
+        "label": "Tilluft luftmengde",
+        "category": "observation",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "exhaust_fan_flow",
+        "label": "Avtrekk luftmengde",
+        "category": "observation",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "heat_recovery_efficiency",
+        "label": "Gjenvinner virkningsgrad",
+        "category": "observation",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "heating_coil_temp",
+        "label": "Varmebatteri temp.",
+        "category": "observation",
+        "availability": "available",
+        "usedInModel": true,
+        "coveragePct": 100
+      },
+      {
+        "featureId": "solar_irradiance_measured",
+        "label": "Solstråling (målt)",
+        "category": "disturbance",
+        "availability": "missing",
+        "usedInModel": false,
+        "coveragePct": null
+      },
+      {
+        "featureId": "occupancy",
+        "label": "Belegg / opptatt tid",
+        "category": "disturbance",
+        "availability": "missing",
+        "usedInModel": false,
+        "coveragePct": null
+      },
+      {
+        "featureId": "room_temp",
+        "label": "Romtemperatur",
+        "category": "observation",
+        "availability": "missing",
+        "usedInModel": false,
+        "coveragePct": null
+      },
+      {
+        "featureId": "co2",
+        "label": "CO₂",
+        "category": "observation",
+        "availability": "missing",
+        "usedInModel": false,
+        "coveragePct": null
+      },
+      {
+        "featureId": "supply_fan_pressure",
+        "label": "Trykk tilluftskanal",
+        "category": "observation",
+        "availability": "missing",
+        "usedInModel": false,
+        "coveragePct": null
+      },
+      {
+        "featureId": "exhaust_fan_pressure",
+        "label": "Trykk avtrekkskanal",
+        "category": "observation",
+        "availability": "missing",
+        "usedInModel": false,
+        "coveragePct": null
+      }
+    ],
+    "heatRecoveryState": {
+      "comparedSteps": 280,
+      "maeC": 0.46,
+      "rmseC": 1.1
+    }
+  },
+  "powerProxy": {
+    "version": "power-v3",
+    "betaFan": 1.228,
+    "betaFanFlow": 0.013,
+    "betaHeat": 1.823,
+    "betaDistrictHeat": 10.586,
+    "betaCool": 1.07,
+    "controllableElectricShare": 0.277,
+    "controllableHeatShare": 0.528
+  },
+  "energyReconcile": {
+    "evalStart": "2026-06-24T00:00:00.000Z",
+    "evalEnd": "2026-07-04T00:00:00.000Z",
+    "hoursAligned": 222,
+    "measured": {
+      "electricityKwh": 334.63,
+      "districtHeatingKwh": 589,
+      "totalCostKr": 862.86,
+      "hours": 215
+    },
+    "proxy": {
+      "observed": {
+        "elKwh": 71.66,
+        "heatKwh": 450.07,
+        "costKr": 390.18
+      },
+      "emulated": {
+        "elKwh": 74.37,
+        "heatKwh": 455.17,
+        "costKr": 394.29
+      },
+      "mpc": {
+        "elKwh": 66.92,
+        "heatKwh": 450.18,
+        "costKr": 383.44
+      }
+    },
+    "shares": {
+      "controllableElectricShare": 0.277,
+      "controllableHeatShare": 0.528,
+      "proxyElectricShareOfMeasured": 22.22,
+      "proxyHeatShareOfMeasured": 77.28,
+      "proxyHeatShareOfCircuit": 88.38,
+      "heatGroundTruth": "tr003_energy_meter"
+    },
+    "deltaMpcVsEmulated": {
+      "costKr": -10.85,
+      "costPct": -2.75,
+      "elKwh": -7.45,
+      "heatKwh": -4.99
+    },
+    "circuitMeter": {
+      "tr003EnergyKwh": 515,
+      "tr003PowerKwh": 818.5,
+      "bhccDistrictHeatingKwh": 589,
+      "gapPct": -12.56,
+      "proxyShareOfCircuitPct": 88.38,
+      "proxyShareOfBhccPct": 77.28,
+      "hoursWithBoth": 209,
+      "hoursWithPower": 233
+    },
+    "districtDeltaT": [
+      {
+        "circuit": "tr002",
+        "bmsAvgDeltaTC": 4.4,
+        "bmsSteps": 936,
+        "meterAvgDeltaTC": 72,
+        "meterSteps": 936,
+        "gapC": 67.6
+      },
+      {
+        "circuit": "tr003",
+        "bmsAvgDeltaTC": 4.1,
+        "bmsSteps": 936,
+        "meterAvgDeltaTC": 70.1,
+        "meterSteps": 936,
+        "gapC": 66.1
+      }
+    ],
+    "heatingDemand": {
+      "tr003": {
+        "fromPowerIntegralKwh": 818.5000000000002,
+        "fromEnergyMeterKwh": 515,
+        "groundTruthKwh": 515,
+        "source": "tr003_energy_meter"
+      },
+      "activeStepPct": 69.55,
+      "activeSteps": 651,
+      "observed": {
+        "batteryKwh": 11.84,
+        "districtKwh": 691.33,
+        "totalKwh": 703.17
+      },
+      "emulated": {
+        "batteryKwh": 20.34,
+        "districtKwh": 702.41,
+        "totalKwh": 722.75
+      },
+      "mpc": {
+        "batteryKwh": 11.51,
+        "districtKwh": 691.36,
+        "totalKwh": 702.87
+      },
+      "demand": {
+        "batteryKwh": 20.34,
+        "districtKwh": 702.41,
+        "totalKwh": 722.75
+      }
+    }
+  },
+  "priceLoadShift": {
+    "highPriceHours": 59,
+    "bands": {
+      "high": {
+        "baselineKwh": 133.44,
+        "mpcKwh": 129.21,
+        "deltaKwh": 4.23,
+        "deltaPct": -3.17
+      },
+      "medium": {
+        "baselineKwh": 251.31,
+        "mpcKwh": 245.3,
+        "deltaKwh": 6.01,
+        "deltaPct": -2.39
+      },
+      "low": {
+        "baselineKwh": 144.66,
+        "mpcKwh": 142.49,
+        "deltaKwh": 2.17,
+        "deltaPct": -1.5
+      }
+    },
+    "deltaE_hp_kwh": 4.23,
+    "deltaE_hp_pct": -3.17,
+    "highPriceCostBaselineKr": 106.52,
+    "highPriceCostMpcKr": 102.05,
+    "highPriceCostDeltaKr": 4.47,
+    "highPriceCostDeltaPct": -4.2,
+    "interpretation": "Simulert forslag bruker mindre energi i høypris-timer"
+  },
+  "occupancyEval": {
+    "stepCount": 936,
+    "unoccupiedStepCount": 212,
+    "unoccupiedStepPct": 22.6,
+    "weekendStepCount": 200,
+    "holidayStepCount": 0,
+    "measuredOffStepCount": 936,
+    "avgOccupancyQ": 0.291,
+    "bySource": {
+      "measured": 936
+    },
+    "operatingProfile": {
+      "timezone": "Europe/Oslo",
+      "occupiedWeekdays": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "occupiedHours": {
+        "start": 7,
+        "end": 18
+      },
+      "preheatMinutes": 180
+    }
+  }
+}

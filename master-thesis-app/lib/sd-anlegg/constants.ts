@@ -1,0 +1,1 @@
+export const SD_ANLEGG_INDEX_SEARCH_MIN = 4;

@@ -1,0 +1,75 @@
+{
+  "generatedAt": "2026-07-04T23:51:08.785Z",
+  "evalStart": "2026-06-24T00:00:00.000Z",
+  "evalEnd": "2026-07-04T00:00:00.000Z",
+  "stepCount": 936,
+  "buildingLevel": {
+    "electricityKwhFromSteps": 328.6,
+    "electricityKwhFromBhcc": 334.7,
+    "districtHeatingKwhFromSteps": 568,
+    "districtHeatingKwhFromBhcc": 589,
+    "electricityTotalCostKrBhcc": 483.44,
+    "districtHeatingTotalCostKrBhcc": 379.5,
+    "districtHeatingEffectCostKrBhcc": 32.57,
+    "peakHourlyElectricKwFromSteps": 4.1
+  },
+  "controllableProxy": {
+    "controllableElectricKwh": 70.9,
+    "controllableHeatKwh": 300.9,
+    "controllableElectricShareOfBuilding": 21.6,
+    "controllableHeatShareOfBuilding": 53,
+    "configuredElectricShare": 0.277,
+    "configuredHeatShare": 0.528,
+    "peakControllableElectricKw": 1.7
+  },
+  "circuitMeterValidation": {
+    "objectId": "AI-12",
+    "objectName": "320003OE001_energi",
+    "role": "Fjernvarmemåler næring (kretssnitt 320.003)",
+    "deltaKwh": 634,
+    "sampleCount": 932,
+    "pearsonVsAhuHeatingValve": -0.011213539058582666,
+    "alignedStepsWithValve": 932,
+    "suitableForMpcControllableHeat": false
+  },
+  "groundTruth": {
+    "primarySource": "bhcc_kost",
+    "evalStart": "2026-06-24T00:00:00.000Z",
+    "evalEnd": "2026-07-04T00:00:00.000Z",
+    "measured": {
+      "electricityKwh": 334.7,
+      "districtHeatingKwh": 589,
+      "electricityCostKr": 483.44,
+      "districtHeatingCostKr": 379.5,
+      "totalCostKr": 862.93,
+      "hourCount": 238,
+      "hoursWithElectricity": 213,
+      "hoursWithDistrictHeating": 215
+    },
+    "prices": {
+      "spotHoursEntsoe": 96,
+      "spotHoursNordPool": 0,
+      "spotHoursUnknown": 142,
+      "marginalAddonKrPerKwh": 0.427,
+      "hoursWithMarginalPrice": 213
+    },
+    "hourlyCoveragePct": 99.2,
+    "csvOverlay": null,
+    "notes": [
+      "Primær ground truth: Kost/BHCC (buildingHourlyCostCache) — målt byggvolum + kost per time.",
+      "Spotpris: 96 ENTSO-E · 0 Nord Pool · nettleie-addon 0.427 kr/kWh.",
+      "Time-dekning i eval-vindu: 99.2 % (238/240 timer).",
+      "Ingen data/eval CSV — estimater og reconcile kjører på BHCC + ENTSO-E uten manuell import."
+    ]
+  },
+  "limitations": [
+    "15-min steps use hourly BHCC kWh / 4 — correct for energy, not for sub-hourly peak.",
+    "Controllable electric kW uses fan/coil proxy + building share — no AHU electrical submeter in Infraspawn.",
+    "Controllable heat kW uses valve/outdoor proxy + building share — not isolated to AHU coil despite 320003OE001 circuit meter.",
+    "320003OE001 validates næring FV kWh against BHCC (~5 % gap) but does not correlate with AHU heating valve (|r| < 0.06) — unsuitable as MPC controllable heat input.",
+    "MPC marginal price uses spot + grid energy addon; electricity effect/demand charge not in objective.",
+    "districtHeatingEffectCost in BHCC is not allocated to MPC heatKrPerKwh (volume-average only).",
+    "Cooling from BHCC (coolingVolumeKwh) is not mapped to AHU cooling coil in mpc-v1.",
+    "Measured ground truth: BHCC/Kost (334.7 kWh el / 589 kWh FV, 99.2 % time-dekning)."
+  ]
+}

@@ -1,0 +1,368 @@
+.branchContainer {
+  container-type: inline-size;
+  container-name: heating-branch;
+  width: 100%;
+  min-width: 0;
+  font-size: clamp(10px, 2.5cqw, 13px);
+}
+
+@container heating-branch (min-width: 52rem) {
+  .branchContainer {
+    font-size: clamp(11px, 1.45cqw, 14px);
+  }
+}
+
+.branchGrid {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(5.5rem, 14%) minmax(0, 1fr);
+}
+
+@container heating-branch (max-width: 22rem) {
+  .branchGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .primaryColumn {
+    border-right: none;
+    border-bottom: 1px solid color-mix(in oklch, var(--destructive) 12%, transparent);
+    padding-bottom: 0.5rem;
+  }
+
+  .primaryContent {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.65rem 0.85rem;
+  }
+}
+
+@container heating-branch (min-width: 40rem) {
+  .branchGrid {
+    grid-template-columns: minmax(6.25rem, 13%) minmax(0, 1fr);
+  }
+}
+
+.primaryColumn {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.35em;
+  border-right: 1px solid color-mix(in oklch, var(--destructive) 12%, transparent);
+  background: color-mix(in oklch, var(--destructive) 3.5%, transparent);
+  padding: 0.45em 0.4em;
+}
+
+.primaryContent {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35em;
+}
+
+@container heating-branch (min-width: 28rem) {
+  .primaryContent {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35em 0.5em;
+  }
+}
+
+.secondaryColumn {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 0.35em 0.5em 0.45em 0.75em;
+}
+
+.zoneLabel {
+  margin-bottom: 0.2em;
+  font-size: 0.72em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.laneLabel {
+  flex: 0 0 2.35em;
+  align-self: center;
+  font-size: 0.72em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.laneLabelSupply {
+  color: color-mix(in oklch, var(--destructive) 70%, transparent);
+}
+
+.laneLabelReturn {
+  color: color-mix(in oklch, var(--chart-3) 82%, transparent);
+}
+
+.secondarySchematic {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.secondaryRow {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 2.35em minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0.25rem;
+}
+
+.laneTrackWrap {
+  position: relative;
+  min-width: 0;
+  padding-inline: 0.35rem 0.25rem;
+}
+
+.laneTrackWrapSupply {
+  min-height: clamp(3.65rem, 10.5cqw, 4.5rem);
+}
+
+.laneTrackWrapReturn {
+  min-height: clamp(3.35rem, 9.5cqw, 4.15rem);
+}
+
+.laneTrack {
+  pointer-events: none;
+  position: absolute;
+  inset-inline: 0.35rem 0.25rem;
+  z-index: 0;
+  height: 0.28em;
+  border-radius: 9999px;
+}
+
+.laneTrackWrapSupply .laneTrack {
+  bottom: 0.72em;
+  top: auto;
+  translate: none;
+}
+
+.laneTrackWrapReturn .laneTrack {
+  top: 0.72em;
+  bottom: auto;
+  translate: none;
+}
+
+.laneTrackSupply {
+  background: color-mix(in oklch, var(--destructive) 18%, transparent);
+}
+
+.laneTrackReturn {
+  background: color-mix(in oklch, var(--chart-3) 20%, transparent);
+}
+
+.laneGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  min-height: inherit;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.3rem, 1.4cqw, 0.75rem);
+  padding-inline: 0.15rem;
+}
+
+.laneGridSupply {
+  align-items: flex-end;
+  padding-bottom: 0.55em;
+}
+
+.laneGridReturn {
+  align-items: flex-start;
+  padding-top: 0.55em;
+}
+
+.laneGridBridge {
+  min-height: clamp(2.5rem, 7.5cqw, 3.1rem);
+  align-items: center;
+  padding-inline: 0.5rem 0.25rem;
+  background: color-mix(in oklch, var(--card) 88%, transparent);
+}
+
+.bridgeSpacer {
+  display: block;
+}
+
+.slotCell {
+  display: flex;
+  min-width: 0;
+  justify-content: center;
+}
+
+.slotInner {
+  width: 100%;
+  min-width: 0;
+  max-width: min(100%, 6rem);
+}
+
+@container heating-branch (min-width: 48rem) {
+  .slotInner {
+    max-width: min(100%, 6.75rem);
+  }
+}
+
+.col1 { grid-column: 1; }
+.col2 { grid-column: 2; }
+.col3 { grid-column: 3; }
+.col4 { grid-column: 4; }
+.col5 { grid-column: 5; }
+.col6 { grid-column: 6; }
+
+.tapFlowScroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.tapFlowCompact {
+  font-size: clamp(9px, 2.2cqw, 12px);
+}
+
+.slotButton {
+  width: 100%;
+  min-width: 0;
+  border-radius: calc(var(--radius) - 2px);
+  background: color-mix(in oklch, var(--card) 95%, transparent);
+  padding-inline: 0.15em;
+  text-align: left;
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--border) 30%, transparent);
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.slotButton:active {
+  transform: scale(0.97);
+}
+
+.pumpSlot :global([class*="valueSlot"]) {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  font-size: 0.76em;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.compactSensor :global([class*="symbolStalk"])::after,
+.compactSensor :global([class*="ductStemDown"])::after,
+.compactSensor :global([class*="ductStemUp"])::before {
+  display: none;
+}
+
+.laneEquipment :global([class*="symbolStalk"])::after,
+.laneEquipment :global([class*="ductStemDown"])::after,
+.laneEquipment :global([class*="ductStemUp"])::before {
+  display: none;
+}
+
+.ghostSensor {
+  opacity: 0.78;
+}
+
+.oeMeter {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  max-width: min(100%, 7.25rem);
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2em;
+}
+
+.oePanel {
+  width: 100%;
+  min-width: 0;
+  border-radius: calc(var(--radius) - 2px);
+  border: 1px solid color-mix(in oklch, var(--border) 55%, transparent);
+  background: var(--card);
+  padding: 0.4em 0.45em;
+  font-size: 0.82em;
+  line-height: 1.45;
+  box-shadow: 0 1px 2px color-mix(in oklch, var(--foreground) 4%, transparent);
+}
+
+.oeRow {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) minmax(0, auto);
+  align-items: baseline;
+  gap: 0.35em;
+}
+
+.oeValue {
+  min-width: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+  font-size: 0.95em;
+}
+
+.oeValueCompact {
+  font-size: 0.88em;
+}
+
+.tapGrid {
+  grid-template-columns: repeat(6, minmax(3.35rem, 1fr));
+  min-width: min(100%, 34rem);
+}
+
+.tapSource {
+  grid-column: 1;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.72em;
+  line-height: 1.25;
+  gap: 0.08em;
+}
+
+.tapTank {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15em;
+}
+
+.tapOutflow {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.72em;
+  line-height: 1.25;
+  gap: 0.08em;
+  padding-bottom: 0.15em;
+}
+
+.tapTankSymbol {
+  display: flex;
+  height: clamp(1.85rem, 6.5cqw, 2.15rem);
+  width: clamp(1.85rem, 6.5cqw, 2.15rem);
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68em;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  border: 1px solid color-mix(in oklch, var(--border) 55%, transparent);
+  border-radius: calc(var(--radius) - 2px);
+  background: color-mix(in oklch, var(--card) 92%, transparent);
+}

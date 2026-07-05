@@ -1,0 +1,127 @@
+object_id,object_name,description,unit,canonical_id,canonical_label,kind,subsystem,control_role,application,schema_slot_id,fdv_role,in_mpc_control,in_u_meas,in_eval,catalog_only
+BI-1,310.001JP501_A,Pumpe,,,,unmapped,,,out_of_scope,,Tappevannspumpe drift,0,0,0,0
+MSVV-1,310.001JP501_KOM,Pumpe,,,,unmapped,,,out_of_scope,,Tappevannspumpe kommando,0,0,0,0
+BO-1,310.001JP501_S,Pumpe,,,,unmapped,,,out_of_scope,,Tappevannspumpe status,0,0,0,0
+AI-1,310.001RT402_MV,Temperatur turvann,degrees-celsius,,,unmapped,,,out_of_scope,,Tur tappevann,0,0,0,0
+AV-1,310.001RT402_SP,Settpunkt,degrees-celsius,,,unmapped,,,out_of_scope,,Settpunkt tappevann (TR001),0,0,0,0
+AO-1,310.001SB501_C,Reguleringsventil,percent,,,unmapped,,,out_of_scope,,Tappevannsventil,0,0,0,0
+BI-10,310.010JP001_A,Pumpe,,,,unmapped,,,out_of_scope,,Dykkpumpe pumpekum,0,0,0,0
+BI-11,310.010JP001_D,Pumpe,,,,unmapped,,,out_of_scope,,Dykkpumpe pumpekum,0,0,0,0
+BI-12,310.010JP002_A,Pumpe,,,,unmapped,,,out_of_scope,,Dykkpumpe pumpekum,0,0,0,0
+BI-13,310.010JP002_D,Pumpe,,,,unmapped,,,out_of_scope,,Dykkpumpe pumpekum,0,0,0,0
+AI-2,320.001RT901_MV,Utetemperatur,degrees-celsius,outdoor.temp,Utetemperatur (BMS fasade),disturbance,temperature,disturbance,mpc_plant,,Utetemperatur fasade,0,0,1,0
+MSVV-2,320.002JP401_2_KOM,Pumpe,,district.tr002.pump.sequencer.command,TR002 residential — District pump sequencer command,control,district_heating,operational_command,mpc_context,,TR002 bolig pumpe,0,0,0,0
+AV-2,320.002JP401_2_SP,Settpunkt v/stans,degrees-celsius,district.tr002.pump.stop.setpoint,TR002 residential — District pump stop setpoint,control,district_heating,operational_command,mpc_context,,TR002 bolig pumpe,0,0,0,0
+BI-2,320.002JP401_A,Pumpe,,district.tr002.pump.run,TR002 residential — District pump run command,control,district_heating,operational_command,mpc_context,,TR002 bolig pumpe,0,0,0,0
+BO-2,320.002JP401_S,Pumpe,,district.tr002.pump.status,Pumpestatus TR002 bolig (observert),measured_state,district_heating,plant_measurement,mpc_plant,,TR002 bolig pumpe,0,0,1,0
+BI-3,320.002JP402_A,Pumpe,,district.tr002.pump.secondary.run,TR002 residential — District secondary pump run command,control,district_heating,operational_command,mpc_context,,TR002 bolig pumpe,0,0,0,0
+BO-3,320.002JP402_S,Pumpe,,district.tr002.pump.secondary.status,TR002 residential — District secondary pump status,measured_state,district_heating,plant_measurement,ui_plant,,TR002 bolig pumpe,0,0,0,0
+AI-4,320.002RP403_MV,Differansetrykk,bars,,,unmapped,,,out_of_scope,,Differansetrykk,0,0,0,0
+AV-3,320.002RT402_MAX,Kompenseringskurve Y4 Regulert Verdi,degrees-celsius,district.tr002.comp.max,TR002 residential — Compensation curve Y4 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR002 bolig tur,0,0,0,0
+AV-4,320.002RT402_MIN,Kompenseringskurve Y1 Regulert Verdi,degrees-celsius,district.tr002.comp.min,TR002 residential — Compensation curve Y1 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR002 bolig tur,0,0,0,0
+AI-3,320.002RT402_MV,Temperatur turvann,degrees-celsius,district.tr002.supply.temp,Tur temperatur TR002 bolig,measured_state,district_heating,plant_measurement,mpc_plant,,TR002 bolig tur,0,0,1,0
+AV-7,320.002RT402_SPF,Settpunktforstilling,degrees-celsius,district.tr002.comp.spf,TR002 residential — Compensation curve setpoint bias,derived_state,district_heating,bms_configuration,mpc_context,,TR002 bolig tur,0,0,0,0
+AV-12,320.002RT402_SPK,Settpunkt kalkulert,degrees-celsius,district.tr002.supply.setpoint,Beregnet tur-SP TR002 bolig,derived_state,district_heating,plant_measurement,mpc_plant,,Settpunkt tur bolig (TR002),0,0,1,0
+AV-5,320.002RT402_VKH,Kompenseringskurve X3 Kompenserende Verdi,degrees-celsius,district.tr002.comp.x3,TR002 residential — Compensation curve X3 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR002 bolig tur,0,0,0,0
+AV-9,320.002RT402_VKHH,Kompenseringskurve X4 Kompenserende Verdi,degrees-celsius,district.tr002.comp.x4,TR002 residential — Compensation curve X4 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR002 bolig tur,0,0,0,0
+AV-6,320.002RT402_VKL,Kompenseringskurve X2 Kompenserende Verdi,degrees-celsius,district.tr002.comp.x2,TR002 residential — Compensation curve X2 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR002 bolig tur,0,0,0,0
+AV-8,320.002RT402_VKLL,Kompenseringskurve X1 Kompenserende Verdi,degrees-celsius,district.tr002.comp.x1,TR002 residential — Compensation curve X1 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR002 bolig tur,0,0,0,0
+AV-10,320.002RT402_VPKH,Kompenseringskurve Y3 Regulert Verdi,degrees-celsius,district.tr002.comp.y3,TR002 residential — Compensation curve Y3 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR002 bolig tur,0,0,0,0
+AV-11,320.002RT402_VPKL,Kompenseringskurve Y2 Regulert Verdi,degrees-celsius,district.tr002.comp.y2,TR002 residential — Compensation curve Y2 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR002 bolig tur,0,0,0,0
+AI-18,320.002RT502_MV,Temperatur returvann,degrees-celsius,district.tr002.return.temp,Retur temperatur TR002 bolig,measured_state,district_heating,plant_measurement,mpc_plant,,Temperatur returvann,0,0,1,0
+AO-2,320.002SB502_C,Varmeventil,percent,district.tr002.valve.command,Pådrag varmeventil TR002 bolig,control,district_heating,district_actuator,district_actuator,,TR002 bolig ventil,1,0,1,0
+MSVV-3,320.003JP401_2_KOM,Pumpe,,district.tr003.pump.sequencer.command,TR003 commercial — District pump sequencer command,control,district_heating,operational_command,mpc_context,,TR003 næring pumpe,0,0,0,0
+AV-26,320.003JP401_2_SP,Settpunkt v/stans,degrees-celsius,district.tr003.pump.stop.setpoint,TR003 commercial — District pump stop setpoint,control,district_heating,operational_command,mpc_context,,TR003 næring pumpe,0,0,0,0
+BI-7,320.003JP401_A,Pumpe,,district.tr003.pump.run,TR003 commercial — District pump run command,control,district_heating,operational_command,mpc_context,,TR003 næring pumpe,0,0,0,0
+BO-4,320.003JP401_S,Pumpe,,district.tr003.pump.status,Pumpestatus TR003 næring (observert),measured_state,district_heating,plant_measurement,mpc_plant,,TR003 næring pumpe,0,0,1,0
+BI-8,320.003JP402_A,Pumpe,,district.tr003.pump.secondary.run,TR003 commercial — District secondary pump run command,control,district_heating,operational_command,mpc_context,,TR003 næring pumpe,0,0,0,0
+BO-5,320.003JP402_S,Pumpe,,district.tr003.pump.secondary.status,TR003 commercial — District secondary pump status,measured_state,district_heating,plant_measurement,ui_plant,,TR003 næring pumpe,0,0,0,0
+AV-16,320.003RT402_MAX,Kompenseringskurve Y4 Regulert Verdi,degrees-celsius,district.tr003.comp.max,TR003 commercial — Compensation curve Y4 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR003 næring tur,0,0,0,0
+AV-17,320.003RT402_MIN,Kompenseringskurve Y1 Regulert Verdi,degrees-celsius,district.tr003.comp.min,TR003 commercial — Compensation curve Y1 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR003 næring tur,0,0,0,0
+AI-11,320.003RT402_MV,Temperatur turvann,degrees-celsius,district.tr003.supply.temp,Tur temperatur TR003 næring,measured_state,district_heating,plant_measurement,mpc_plant,,TR003 næring tur,0,0,1,0
+AV-20,320.003RT402_SPF,Settpunktforstilling,degrees-celsius,district.tr003.comp.spf,TR003 commercial — Compensation curve setpoint bias,derived_state,district_heating,bms_configuration,mpc_context,,TR003 næring tur,0,0,0,0
+AV-25,320.003RT402_SPK,Settpunkt kalkulert,degrees-celsius,district.tr003.supply.setpoint,Beregnet tur-SP TR003 næring,derived_state,district_heating,plant_measurement,mpc_plant,,Settpunkt tur næring (TR003),0,0,1,0
+AV-18,320.003RT402_VKH,Kompenseringskurve X3 Kompenserende Verdi,degrees-celsius,district.tr003.comp.x3,TR003 commercial — Compensation curve X3 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR003 næring tur,0,0,0,0
+AV-22,320.003RT402_VKHH,Kompenseringskurve X4 Kompenserende Verdi,degrees-celsius,district.tr003.comp.x4,TR003 commercial — Compensation curve X4 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR003 næring tur,0,0,0,0
+AV-19,320.003RT402_VKL,Kompenseringskurve X2 Kompenserende Verdi,degrees-celsius,district.tr003.comp.x2,TR003 commercial — Compensation curve X2 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR003 næring tur,0,0,0,0
+AV-21,320.003RT402_VKLL,Kompenseringskurve X1 Kompenserende Verdi,degrees-celsius,district.tr003.comp.x1,TR003 commercial — Compensation curve X1 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR003 næring tur,0,0,0,0
+AV-23,320.003RT402_VPKH,Kompenseringskurve Y3 Regulert Verdi,degrees-celsius,district.tr003.comp.y3,TR003 commercial — Compensation curve Y3 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR003 næring tur,0,0,0,0
+AV-24,320.003RT402_VPKL,Kompenseringskurve Y2 Regulert Verdi,degrees-celsius,district.tr003.comp.y2,TR003 commercial — Compensation curve Y2 anchor,derived_state,district_heating,bms_configuration,mpc_context,,TR003 næring tur,0,0,0,0
+AI-19,320.003RT502_MV,Temperatur returvann,degrees-celsius,district.tr003.return.temp,Retur temperatur TR003 næring,measured_state,district_heating,plant_measurement,mpc_plant,,Temperatur returvann,0,0,1,0
+AO-3,320.003SB502_C,Varmeventil,percent,district.tr003.valve.command,Pådrag varmeventil TR003 næring,control,district_heating,district_actuator,district_actuator,,TR003 næring ventil,1,0,1,0
+AI-7,320001OE001_effekt,Effekt,kilowatts,district.meter.tr002.power,Effekt TR002 (OE001 bolig),measured_state,district_heating,plant_measurement,mpc_plant,,Fjernvarmemåler bolig (WM001),0,0,1,0
+AI-5,320001OE001_energi,Energi akkumulert,kilowatt-hours,district.meter.tr002.energy,Akkumulert energi TR002 (OE001 bolig),measured_state,district_heating,plant_measurement,mpc_plant,,Fjernvarmemåler bolig (WM001),0,0,1,0
+AI-8,320001OE001_flow,Flow,cubic-meters-per-hour,,,unmapped,,,out_of_scope,,Fjernvarmemåler bolig (WM001),0,0,0,0
+AI-10,320001OE001_returtemp,Returtemperatur,degrees-celsius,district.meter.tr002.return.temp,Retur TR002 primær (OE001 bolig),measured_state,district_heating,plant_measurement,mpc_plant,,Fjernvarmemåler bolig (WM001),0,0,1,0
+AI-9,320001OE001_turtemp,Turtemperatur,degrees-celsius,district.meter.tr002.supply.temp,Tur TR002 primær (OE001 bolig),measured_state,district_heating,plant_measurement,mpc_plant,,Fjernvarmemåler bolig (WM001),0,0,1,0
+AI-6,320001OE001_volum,Volum,cubic-meters,,,unmapped,,,out_of_scope,,Fjernvarmemåler bolig (WM001),0,0,0,0
+AI-14,320003OE001_effekt,Effekt,kilowatts,district.meter.tr003.power,Effekt TR003 (OE001 næring),measured_state,district_heating,plant_measurement,mpc_plant,,Fjernvarmemåler næring (WM001),0,0,1,0
+AI-12,320003OE001_energi,Energi akkumulert,kilowatt-hours,district.meter.tr003.energy,Akkumulert energi TR003 (OE001 næring),measured_state,district_heating,plant_measurement,mpc_plant,,Fjernvarmemåler næring (WM001),0,0,1,0
+AI-15,320003OE001_flow,Flow,cubic-meters-per-hour,,,unmapped,,,out_of_scope,,Fjernvarmemåler næring (WM001),0,0,0,0
+AI-17,320003OE001_returtemp,Returtemperatur,degrees-celsius,district.meter.tr003.return.temp,Retur TR003 primær (OE001 næring),measured_state,district_heating,plant_measurement,mpc_plant,,Fjernvarmemåler næring (WM001),0,0,1,0
+AI-16,320003OE001_turtemp,Turtemperatur,degrees-celsius,district.meter.tr003.supply.temp,Tur TR003 primær (OE001 næring),measured_state,district_heating,plant_measurement,mpc_plant,,Fjernvarmemåler næring (WM001),0,0,1,0
+AI-13,320003OE001_volum,Volum,cubic-meters,,,unmapped,,,out_of_scope,,Fjernvarmemåler næring (WM001),0,0,0,0
+AI-20,362.001RT601_MV,Romtemperatur,degrees-celsius,,,unmapped,,,out_of_scope,,Heissjakt temperatur,0,0,0,0
+BI-4,542.001UK001_A,Tekninsk feil brannsentral,,,,unmapped,,,out_of_scope,,Brannsentral signal,0,0,0,0
+BI-5,542.001UK002_A,Sløyfefeil brannsentral,,,,unmapped,,,out_of_scope,,Brannsentral signal,0,0,0,0
+BI-14,542.002UK001_A,Tekninsk feil brannsentral,,,,unmapped,,,out_of_scope,,Brannsentral signal,0,0,0,0
+BI-15,542.002UK002_A,Sløyfefeil brannsentral,,,,unmapped,,,out_of_scope,,Brannsentral signal,0,0,0,0
+BI-6,543.001XS001_A,Adgangskontroll,,,,unmapped,,,out_of_scope,,Adgangskontroll,0,0,0,0
+BI-9,690.001XX001_A,Oljeutskiller,,,,unmapped,,,out_of_scope,,Utvendig varmekabel,0,0,0,0
+AV-40302,AI_EAFFlow,Extract air fan flow,cubic-meters-per-hour,exhaust.fan.flow,Luftmengde avtrekk,measured_state,ventilation,plant_measurement,mpc_plant,exhaust.fan,Luftmengde avtrekk,0,0,1,0
+AV-40300,AI_EAFPressure,Extract air fan press.,pascals,exhaust.fan.pressure,Trykk avtrekkskanal,measured_state,ventilation,plant_measurement,ui_plant,exhaust.fan,Trykk avtrekkskanal,0,0,0,0
+AV-40325,AI_EfficiencyTemp,temp. efficiency sensor,degrees-celsius,heat_recovery.after_temp,Temp. etter gjenvinner,measured_state,ventilation,plant_measurement,mpc_plant,supply.temp_mid,Temp. etter varmegjenvinner,0,0,1,0
+AV-40294,AI_ExtractAirTemp,Extract air temp,degrees-celsius,extract.temp,Temp. avtrekk (komfortproxy),measured_state,temperature,plant_measurement,mpc_plant,exhaust.temp,Temp. avtrekk,1,0,1,0
+AV-40323,AI_FilterGuard1,Ana. filter 1 value,pascals,supply.filter.pressure,Filtervakt inntak,measured_state,ventilation,plant_measurement,ui_plant,supply.filter,Filtervakt inntak,0,0,0,0
+AV-40324,AI_FilterGuard2,Ana. filter 2 value,pascals,exhaust.filter.pressure,Filtervakt avtrekk,measured_state,ventilation,plant_measurement,ui_plant,exhaust.filter,Filtervakt avtrekk,0,0,0,0
+AV-40306,AI_FrostprotTemp1,Frost prot. temp 1,degrees-celsius,heating.coil_temp,Temp. frost varmebatteri,measured_state,heating,plant_measurement,mpc_plant,heating.temp,Temp. frost varmebatteri,0,0,1,0
+AV-40291,AI_IntakeAirTemp,Intake air temp.,degrees-celsius,intake.temp,Temp. inntak (AHU),measured_state,temperature,plant_measurement,mpc_plant,supply.temp_in,Temp. inntak,0,0,1,0
+AV-40301,AI_SAFFlow,Supply air fan flow,cubic-meters-per-hour,supply.fan.flow,Luftmengde tilluft,measured_state,ventilation,plant_measurement,mpc_plant,supply.fan,Luftmengde tilluft,0,0,1,0
+AV-40299,AI_SAFPressure,Supply air fan press.,pascals,supply.fan.pressure,Trykk tilluftskanal,measured_state,ventilation,plant_measurement,ui_plant,supply.fan,Trykk tilluftskanal,0,0,0,0
+AV-40292,AI_SupplyAirTemp,Supply air temp.,degrees-celsius,supply.temp,Temp. tilluft,measured_state,temperature,plant_measurement,mpc_plant,supply.temp_out,Temp. tilluft,0,0,1,0
+AV-40372,AO_3,AO3,volts,heating.valve.command,Pådrag varmebatteri,control,heating,mpc_actuator,mpc_actuator,heating.valve,Pådrag varmebatteri,1,1,1,0
+AV-40373,AO_4,AO4,volts,cooling.valve.position,Posisjon kjølebatteri (feedback),measured_state,cooling,plant_measurement,mpc_plant,,AO4,0,0,1,0
+AV-40374,AO_5,AO5,volts,cooling.valve.command,Pådrag kjølebatteri (AO),control,cooling,mpc_actuator,mpc_actuator,heating.cool_valve,Pådrag kjølebatteri,1,1,1,0
+AV-40354,AO_EAF,Extract air fan cont.,percent,exhaust.fan.command,Pådrag avtrekksvifte,control,ventilation,mpc_actuator,mpc_actuator,exhaust.fan,Pådrag avtrekksvifte,1,1,1,0
+AV-40353,AO_SAF,Supply air fan cont.,percent,supply.fan.command,Pådrag tilluftsvifte,control,ventilation,mpc_actuator,mpc_actuator,supply.fan,Pådrag tilluftsvifte,1,1,1,0
+MSVV-30565,AirUnitAutoMode,Running mode air unit,,system.schedule,Tidsprogram / driftsmodus,control,system,operational_mode,ui_mode,status.schedule,Tidsprogram / driftsmodus,0,0,0,0
+BV-20263,DI_3,DI3,,,,unmapped,,,out_of_scope,,DI3,0,0,0,0
+BV-20264,DI_4,DI4,,,,unmapped,,,out_of_scope,,DI4,0,0,0,0
+BV-20265,DI_5,DI5,,,,unmapped,,,out_of_scope,,DI5,0,0,0,0
+BV-20266,DI_6,DI6,,,,unmapped,,,out_of_scope,,DI6,0,0,0,0
+MSVV-30549,DOSelect_SeqPumpY1,Run mode pump seq A,,,,unmapped,,,out_of_scope,heating.pump,Pumpe varmebatteri,0,0,0,0
+MSVV-30550,DOSelect_SeqPumpY2,Run mode pump seq B,,,,unmapped,,,out_of_scope,heating.pump,Pumpe kjølebatteri,0,0,0,0
+BV-20334,DO_2,DO2,,,,unmapped,,,out_of_scope,,DO2,0,0,0,0
+BV-20335,DO_3,DO3,,,,unmapped,,,out_of_scope,,DO3,0,0,0,0
+BV-20332,DO_EAFStart,Start sig. Extract air fan,,,,unmapped,,,out_of_scope,exhaust.fan,Startsignal avtrekksvifte,0,0,0,0
+BV-20331,DO_SAFStart,Start sig. Supply air fan,,,,unmapped,,,out_of_scope,supply.fan,Startsignal tilluftsvifte,0,0,0,0
+BV-20321,DO_SeqPumpY1,Start sig. pump seq A,,,,unmapped,,,out_of_scope,heating.pump,Pumpe varmebatteri,0,0,0,0
+BV-20322,DO_SeqPumpY2,Start sig. pump seq B,,,,unmapped,,,out_of_scope,heating.pump,Pumpe kjølebatteri,0,0,0,0
+MSVV-30570,EAFAutoMode,Running mode EAF,,exhaust.fan.mode,Driftsmodus avtrekk,control,ventilation,operational_mode,ui_mode,exhaust.fan,Kommando avtrekk,0,0,0,0
+BV-20093,EAFcontError,EAF cont. error,,,,unmapped,,,out_of_scope,exhaust.fan,Alarm avtrekksvifte,0,0,0,0
+AV-40395,Efficiency,Efficiency for exchanger,percent,heat_recovery.efficiency,Virkningsgrad gjenvinner,derived_state,ventilation,plant_measurement,mpc_plant,heat_recovery.unit,Virkningsgrad varmegjenvinner,0,0,1,0
+AV-30589,ExtractSetpoint,Setp. extract air temp if extract air temp cont. func.,degrees-celsius,extract.setpoint,Settpunkt avtrekk,control,ventilation,bms_setpoint,mpc_setpoint,,Setp. extract air temp if extract air temp cont. func.,1,0,1,0
+BV-20068,Firealarm,Fire alarm,,constraint.fire,Brannalarm,constraint,system,constraint,mpc_constraint,,Fire alarm,0,0,1,0
+BV-20074,Frostrisk,Frost risk,,constraint.frost,Frostvakt,constraint,system,constraint,mpc_constraint,status.frost,Frostvakt,0,0,1,0
+BV-20075,Lowefficiency,Low efficiency,,constraint.low_efficiency,Lav virkningsgrad gjenvinner,constraint,ventilation,constraint,mpc_constraint,heat_recovery.unit,Lav virkningsgrad,0,0,1,0
+BV-20046,Malf_pumpcooler,Malf. pump cooler,,cooling.pump.malfunction,Alarm pumpe kjølebatteri,constraint,cooling,constraint,mpc_constraint,heating.pump,Alarm pumpe kjølebatteri,0,0,1,0
+BV-20045,Malf_pumpheater,Malf. pump heater,,heating.pump.malfunction,Alarm pumpe varmebatteri,constraint,heating,constraint,mpc_constraint,heating.pump,Alarm pumpe varmebatteri,0,0,1,0
+BV-20077,Rotationguardexchanger,Rotation guard exchanger,,heat_recovery.rotation_guard,Rotasjonsvakt gjenvinner,measured_state,ventilation,plant_measurement,mpc_plant,heat_recovery.unit,Rotasjonsvakt varmegjenvinner,0,0,1,0
+BO-6,S690001XS001_S,Varmekabel,,,,unmapped,,,out_of_scope,,Varmekabel,0,0,0,0
+AV-27,S690001XS001_SP_START_VK,Settpunkt stopp ved höy utetemperatur,degrees-celsius,,,unmapped,,,out_of_scope,,Settpunkt stopp ved höy utetemperatur,0,0,0,0
+AV-28,S690001XS001_SP_STOPP_VK,Settpunkt v/stans,degrees-celsius,,,unmapped,,,out_of_scope,,Settpunkt v/stans,0,0,0,0
+BO-7,S690001XS002_S,Varmekabel,,,,unmapped,,,out_of_scope,,Varmekabel,0,0,0,0
+MSVV-30567,SAFAutoMode,Running mode SAF,,supply.fan.mode,Driftsmodus tilluft,control,ventilation,operational_mode,ui_mode,supply.fan,Kommando tilluft,0,0,0,0
+BV-20092,SAFcontError,SAF cont. error,,,,unmapped,,,out_of_scope,supply.fan,Alarm tilluftsvifte,0,0,0,0
+AV-40443,SFP,Actual SFP,no-units,ventilation.sfp,Specific Fan Power (SFP),derived_state,ventilation,plant_measurement,mpc_plant,status.sfp,Specific Fan Power,0,0,1,0
+BV-20069,Smokedetectoralarm,Smoke detector alarm,,,,unmapped,,,out_of_scope,,Smoke detector alarm,0,0,0,0
+BV-20007,SumAlarm,Sumalarm,,,,unmapped,,,out_of_scope,,Sumalarm,0,0,0,0
+BV-20008,SumAlarmA,A-alarm,,,,unmapped,,,out_of_scope,,A-alarm,0,0,0,0
+BV-20009,SumAlarmB,B-alarm,,,,unmapped,,,out_of_scope,,B-alarm,0,0,0,0
+BV-20010,SumAlarmC,C-alarm,,,,unmapped,,,out_of_scope,,C-alarm,0,0,0,0
+AV-40433,SupplyPID_SetP,Calc. setp. supply air temp. when outd. comp. control func.,degrees-celsius,supply.setpoint_calculated,Kalkulert settpunkt tilluft (aktiv SP),derived_state,ventilation,bms_setpoint,mpc_setpoint,status.setpoint,Kalkulert settpunkt tilluft,1,1,1,0
+AV-30588,SupplySetpoint,Setp. supply air temp. when constant supply air temp. func.,degrees-celsius,supply.setpoint,Settpunkt tilluft (operatør),control,ventilation,bms_setpoint,mpc_setpoint,status.setpoint,Kalkulert settpunkt tilluft,1,0,1,0
+MSVV-40396,UnitMode,Run mode.,,system.mode,Systemstatus / anleggsmodus,control,system,operational_mode,ui_mode,status.system,Systemstatus / anleggsmodus,0,0,1,0
+,360102_LX471_C,forventet manglende i SD,%,heat_recovery.command,Pådrag gjenvinner,control,ventilation,operational_mode,ui_mode,,Pådrag gjenvinner,0,0,0,1
+,360102_KA401_S,forventet manglende i SD,,supply.damper.status,Spjeld inntak (status),measured_state,ventilation,plant_measurement,ui_plant,,Spjeld inntak (status),0,0,0,1
+,360102_KA501_S,forventet manglende i SD,,exhaust.damper.status,Spjeld avkast (status),measured_state,ventilation,plant_measurement,ui_plant,,Spjeld avkast (status),0,0,0,1

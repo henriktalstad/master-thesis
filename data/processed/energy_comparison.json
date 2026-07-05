@@ -1,0 +1,75 @@
+{
+  "generatedAt": "2026-07-05T11:46:47.011Z",
+  "buildingSlug": "sorgenfriveien-32ab",
+  "evalStart": "2026-06-24",
+  "evalEnd": "2026-07-04",
+  "measured": {
+    "electricityKwh": 334.6520009636879,
+    "districtHeatingKwh": 589,
+    "totalCostKr": 862.9339114669452,
+    "hours": 215
+  },
+  "baseline": {
+    "totalKwh": 521.6,
+    "totalCostKr": 390.18
+  },
+  "mpcReplay": {
+    "totalKwh": 516.99,
+    "totalCostKr": 383.41,
+    "deltaKwh": -4.610000000000014,
+    "deltaCostKr": -6.77,
+    "deltaPctKwh": -0.9,
+    "deltaPctCostKr": -1.7
+  },
+  "forwardPlan": {
+    "horizonSteps": 96,
+    "expectedDeltaCostKr": -0.4,
+    "computedAt": "2026-07-05T11:00:00Z"
+  },
+  "mpcRunId": "local-replay",
+  "energyReconcile": {
+    "hoursAligned": 222,
+    "measured": {
+      "electricityKwh": 334.63,
+      "districtHeatingKwh": 589,
+      "totalCostKr": 862.86,
+      "hours": 215
+    },
+    "proxy": {
+      "observed": {
+        "elKwh": 71.66,
+        "heatKwh": 450.07,
+        "costKr": 390.18
+      },
+      "emulated": {
+        "elKwh": 74.37,
+        "heatKwh": 455.17,
+        "costKr": 394.29
+      },
+      "mpc": {
+        "elKwh": 66.92,
+        "heatKwh": 450.18,
+        "costKr": 383.44
+      }
+    },
+    "deltaMpcVsEmulated": {
+      "costKr": -10.85,
+      "costPct": -2.75,
+      "elKwh": -7.45,
+      "heatKwh": -4.99
+    },
+    "shares": {
+      "controllableElectricShare": 0.277,
+      "controllableHeatShare": 0.528,
+      "proxyElectricShareOfMeasured": 22.22,
+      "proxyHeatShareOfMeasured": 77.28,
+      "proxyHeatShareOfCircuit": 88.38,
+      "heatGroundTruth": "tr003_energy_meter"
+    }
+  },
+  "outputPaths": [
+    "/Users/henriktalstad/Desktop/master-kyb/master-thesis/data/processed/energy_comparison.json",
+    "/Users/henriktalstad/Desktop/master-kyb/master-thesis/data/processed/building_hourly_measured.csv",
+    "/Users/henriktalstad/Desktop/master-kyb/master-thesis/data/processed/mpc_forward_plan.csv"
+  ]
+}

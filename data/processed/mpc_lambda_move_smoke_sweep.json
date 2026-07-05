@@ -1,0 +1,206 @@
+{
+  "generatedAt": "2026-07-04T15:31:15.287Z",
+  "purpose": "Dokumentere at lav canonical λ_move (0.008) ikke blokkerer besparelse vs målt — ikke jage høyere %.",
+  "evalWindow": {
+    "start": "2026-06-24T00:00:00.000Z",
+    "end": "2026-06-26T00:00:00.000Z",
+    "label": "2026-06-24 → 2026-06-26 (2 d)"
+  },
+  "fixedSolver": {
+    "presetId": "anlegg_pris_respons_v1",
+    "lambdaMoveTemporal": 0.002,
+    "lambdaComfort": 0.9,
+    "lambdaPeak": 0.17
+  },
+  "deltaCostPctSpread": 1.2,
+  "canonicalDeltaCostPct": -1.1,
+  "conclusion": "Moderat λ_move-sensitivitet — diskuter i appendix, ikke endre canonical uten full eval.",
+  "results": [
+    {
+      "id": "aggressive",
+      "label": "Mer aggressive (0.003)",
+      "lambdaMove": 0.003,
+      "elapsedMs": 304409,
+      "pipelineRunId": "cmr53tkw50001nzlwq9xipkh8",
+      "summary": {
+        "stepCount": 168,
+        "deltaCostPct": -1.4,
+        "deltaCostKr": -2.22,
+        "deltaCostVsObservedPct": -1.4,
+        "totalCostBaselineKr": 158.33,
+        "totalCostMpcKr": 156.1,
+        "meaningfulDeltaPct": 56,
+        "fallbackPct": 0,
+        "comfortViolationsMpc": 0,
+        "peakElectricKwMpc": 1.7,
+        "controllableElectricKwhMpc": 20.08
+      },
+      "diagnosis": {
+        "stepCount": 168,
+        "evalDaysApprox": 1.8,
+        "totalCostBaselineKr": 158.33,
+        "totalCostMpcKr": 156.1,
+        "totalCostEmulatedKr": 159.86,
+        "deltaCostKr": -2.22,
+        "deltaCostPct": -1.4,
+        "deltaCostVsEmulatedKr": -3.75,
+        "meaningfulDeltaPct": 56,
+        "highMoveLowSaveSteps": 39,
+        "electricCostSharePct": 18.8,
+        "heatCostSharePct": 81.2,
+        "marginalPriceSpreadKr": {
+          "min": 1.13,
+          "max": 1.712,
+          "p50": 1.322
+        },
+        "avgControllableElectricKwBaseline": 0.51,
+        "avgControllableElectricKwMpc": 0.48,
+        "avgControllableHeatKwBaseline": 2.4,
+        "avgControllableHeatKwMpc": 2.4,
+        "explanations": [
+          "39 steg har stor kontrollendring men ≤ 0,01 kr besparelse — λ_move kan dominere over energikost i objektivet."
+        ]
+      }
+    },
+    {
+      "id": "canonical",
+      "label": "Anlegg pris-respons v1 (0.008)",
+      "lambdaMove": 0.008,
+      "elapsedMs": 270728,
+      "pipelineRunId": "cmr53tkw50001nzlwq9xipkh8",
+      "summary": {
+        "stepCount": 168,
+        "deltaCostPct": -1.1,
+        "deltaCostKr": -1.8,
+        "deltaCostVsObservedPct": -1.1,
+        "totalCostBaselineKr": 158.33,
+        "totalCostMpcKr": 156.53,
+        "meaningfulDeltaPct": 56,
+        "fallbackPct": 0,
+        "comfortViolationsMpc": 0,
+        "peakElectricKwMpc": 1.6,
+        "controllableElectricKwhMpc": 20.38
+      },
+      "diagnosis": {
+        "stepCount": 168,
+        "evalDaysApprox": 1.8,
+        "totalCostBaselineKr": 158.33,
+        "totalCostMpcKr": 156.53,
+        "totalCostEmulatedKr": 159.86,
+        "deltaCostKr": -1.8,
+        "deltaCostPct": -1.1,
+        "deltaCostVsEmulatedKr": -3.32,
+        "meaningfulDeltaPct": 56,
+        "highMoveLowSaveSteps": 51,
+        "electricCostSharePct": 18.8,
+        "heatCostSharePct": 81.2,
+        "marginalPriceSpreadKr": {
+          "min": 1.13,
+          "max": 1.712,
+          "p50": 1.322
+        },
+        "avgControllableElectricKwBaseline": 0.51,
+        "avgControllableElectricKwMpc": 0.49,
+        "avgControllableHeatKwBaseline": 2.4,
+        "avgControllableHeatKwMpc": 2.4,
+        "explanations": [
+          "51 steg har stor kontrollendring men ≤ 0,01 kr besparelse — λ_move kan dominere over energikost i objektivet."
+        ]
+      }
+    },
+    {
+      "id": "cost_focused",
+      "label": "Cost focused-nivå (0.02)",
+      "lambdaMove": 0.02,
+      "elapsedMs": 209705,
+      "pipelineRunId": "cmr53tkw50001nzlwq9xipkh8",
+      "summary": {
+        "stepCount": 168,
+        "deltaCostPct": -0.8,
+        "deltaCostKr": -1.28,
+        "deltaCostVsObservedPct": -0.8,
+        "totalCostBaselineKr": 158.33,
+        "totalCostMpcKr": 157.04,
+        "meaningfulDeltaPct": 43.5,
+        "fallbackPct": 0,
+        "comfortViolationsMpc": 0,
+        "peakElectricKwMpc": 1.6,
+        "controllableElectricKwhMpc": 20.74
+      },
+      "diagnosis": {
+        "stepCount": 168,
+        "evalDaysApprox": 1.8,
+        "totalCostBaselineKr": 158.33,
+        "totalCostMpcKr": 157.04,
+        "totalCostEmulatedKr": 159.86,
+        "deltaCostKr": -1.28,
+        "deltaCostPct": -0.8,
+        "deltaCostVsEmulatedKr": -2.81,
+        "meaningfulDeltaPct": 43.5,
+        "highMoveLowSaveSteps": 34,
+        "electricCostSharePct": 18.8,
+        "heatCostSharePct": 81.2,
+        "marginalPriceSpreadKr": {
+          "min": 1.13,
+          "max": 1.712,
+          "p50": 1.322
+        },
+        "avgControllableElectricKwBaseline": 0.51,
+        "avgControllableElectricKwMpc": 0.49,
+        "avgControllableHeatKwBaseline": 2.4,
+        "avgControllableHeatKwMpc": 2.4,
+        "explanations": [
+          "43.5 % av steg har meningsfull δu, men strøm-proxyen oversetter lite til kWh — typisk når vifte/endring er moderat eller prisspredning er lav.",
+          "34 steg har stor kontrollendring men ≤ 0,01 kr besparelse — λ_move kan dominere over energikost i objektivet."
+        ]
+      }
+    },
+    {
+      "id": "comfort_guarded",
+      "label": "Comfort guarded (0.08)",
+      "lambdaMove": 0.08,
+      "elapsedMs": 196996,
+      "pipelineRunId": "cmr53tkw50001nzlwq9xipkh8",
+      "summary": {
+        "stepCount": 168,
+        "deltaCostPct": -0.2,
+        "deltaCostKr": -0.35,
+        "deltaCostVsObservedPct": -0.2,
+        "totalCostBaselineKr": 158.33,
+        "totalCostMpcKr": 157.97,
+        "meaningfulDeltaPct": 32.7,
+        "fallbackPct": 0,
+        "comfortViolationsMpc": 0,
+        "peakElectricKwMpc": 1.6,
+        "controllableElectricKwhMpc": 21.36
+      },
+      "diagnosis": {
+        "stepCount": 168,
+        "evalDaysApprox": 1.8,
+        "totalCostBaselineKr": 158.33,
+        "totalCostMpcKr": 157.97,
+        "totalCostEmulatedKr": 159.86,
+        "deltaCostKr": -0.35,
+        "deltaCostPct": -0.2,
+        "deltaCostVsEmulatedKr": -1.88,
+        "meaningfulDeltaPct": 32.7,
+        "highMoveLowSaveSteps": 50,
+        "electricCostSharePct": 18.8,
+        "heatCostSharePct": 81.2,
+        "marginalPriceSpreadKr": {
+          "min": 1.13,
+          "max": 1.712,
+          "p50": 1.322
+        },
+        "avgControllableElectricKwBaseline": 0.51,
+        "avgControllableElectricKwMpc": 0.51,
+        "avgControllableHeatKwBaseline": 2.4,
+        "avgControllableHeatKwMpc": 2.4,
+        "explanations": [
+          "32.7 % av steg har meningsfull δu, men strøm-proxyen oversetter lite til kWh — typisk når vifte/endring er moderat eller prisspredning er lav.",
+          "50 steg har stor kontrollendring men ≤ 0,01 kr besparelse — λ_move kan dominere over energikost i objektivet."
+        ]
+      }
+    }
+  ]
+}

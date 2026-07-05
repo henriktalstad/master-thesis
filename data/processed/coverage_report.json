@@ -1,0 +1,53 @@
+{
+  "generatedAt": "2026-06-29T15:52:05.552Z",
+  "buildingSlug": "sorgenfriveien-32ab",
+  "sourceId": "cmql837mc00010fmuhluwoyzi",
+  "thresholdPct": 90,
+  "resolvedSignalCount": 9,
+  "resolvedSignals": [
+    {
+      "canonicalId": "supply.setpoint",
+      "objectId": "AV-30588"
+    },
+    {
+      "canonicalId": "supply.setpoint_calculated",
+      "objectId": "AV-40433"
+    },
+    {
+      "canonicalId": "extract.setpoint",
+      "objectId": "AV-30589"
+    },
+    {
+      "canonicalId": "supply.fan.command",
+      "objectId": "AV-40353"
+    },
+    {
+      "canonicalId": "exhaust.fan.command",
+      "objectId": "AV-40354"
+    },
+    {
+      "canonicalId": "heating.valve.command",
+      "objectId": "AV-40372"
+    },
+    {
+      "canonicalId": "cooling.valve.command",
+      "objectId": "AV-40374"
+    },
+    {
+      "canonicalId": "extract.temp",
+      "objectId": "AV-40294"
+    },
+    {
+      "canonicalId": "supply.temp",
+      "objectId": "AV-40292"
+    }
+  ],
+  "evalStart": "2026-06-16T17:00:00.000Z",
+  "evalEnd": "2026-06-29T08:00:00.000Z",
+  "totalHoursWithData": 156,
+  "simulatableHours": 156,
+  "recommendedEnv": {
+    "THESIS_EVAL_START": "2026-06-16",
+    "THESIS_EVAL_END": "2026-06-29"
+  }
+}

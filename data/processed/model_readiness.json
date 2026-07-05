@@ -1,0 +1,59 @@
+{
+  "generatedAt": "2026-07-05T11:46:46.866Z",
+  "evalStart": "2026-06-24T00:00:00.000Z",
+  "evalEnd": "2026-07-04T00:00:00.000Z",
+  "replayStepCount": 936,
+  "plantValidation": {
+    "comparedSteps": 280,
+    "rmseC": 0.26,
+    "maeC": 0.15,
+    "comfortBandC": {
+      "min": 18,
+      "max": 24
+    },
+    "bounded": true,
+    "rmseShareOfBand": 0.043
+  },
+  "emulatorValidation": {
+    "comparedSteps": 281,
+    "heatingModeAccuracy": 24.9,
+    "coolingModeAccuracy": 100
+  },
+  "replayReadiness": {
+    "optimizablePct": 0.95,
+    "fallbackPct": 0.05,
+    "uMeasCoverage": {
+      "stepCount": 936,
+      "fullVectorSteps": 936,
+      "fullVectorPct": 100
+    }
+  },
+  "occupancyEval": {
+    "stepCount": 936,
+    "unoccupiedStepCount": 212,
+    "unoccupiedStepPct": 22.6,
+    "weekendStepCount": 200,
+    "holidayStepCount": 0,
+    "measuredOffStepCount": 936,
+    "avgOccupancyQ": 0.291,
+    "bySource": {
+      "measured": 936
+    },
+    "operatingProfile": {
+      "timezone": "Europe/Oslo",
+      "occupiedWeekdays": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "occupiedHours": {
+        "start": 7,
+        "end": 18
+      },
+      "preheatMinutes": 180
+    }
+  },
+  "readyForMpcClaims": false
+}

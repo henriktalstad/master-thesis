@@ -1,0 +1,101 @@
+{
+  "generatedAt": "2026-07-05T11:46:46.689Z",
+  "evalStart": "2026-06-24T00:00:00.000Z",
+  "evalEnd": "2026-07-04T00:00:00.000Z",
+  "hoursAligned": 222,
+  "measured": {
+    "electricityKwh": 334.63,
+    "districtHeatingKwh": 589,
+    "totalCostKr": 862.86,
+    "hours": 215
+  },
+  "proxy": {
+    "observed": {
+      "elKwh": 71.66,
+      "heatKwh": 450.07,
+      "costKr": 390.18
+    },
+    "emulated": {
+      "elKwh": 74.37,
+      "heatKwh": 455.17,
+      "costKr": 394.29
+    },
+    "mpc": {
+      "elKwh": 66.92,
+      "heatKwh": 450.18,
+      "costKr": 383.44
+    }
+  },
+  "shares": {
+    "controllableElectricShare": 0.277,
+    "controllableHeatShare": 0.528,
+    "proxyElectricShareOfMeasured": 22.22,
+    "proxyHeatShareOfMeasured": 77.28,
+    "proxyHeatShareOfCircuit": 88.38,
+    "heatGroundTruth": "tr003_energy_meter"
+  },
+  "deltaMpcVsEmulated": {
+    "costKr": -10.85,
+    "costPct": -2.75,
+    "elKwh": -7.45,
+    "heatKwh": -4.99
+  },
+  "circuitMeter": {
+    "tr003EnergyKwh": 515,
+    "tr003PowerKwh": 818.5,
+    "bhccDistrictHeatingKwh": 589,
+    "gapPct": -12.56,
+    "proxyShareOfCircuitPct": 88.38,
+    "proxyShareOfBhccPct": 77.28,
+    "hoursWithBoth": 209,
+    "hoursWithPower": 233
+  },
+  "districtDeltaT": [
+    {
+      "circuit": "tr002",
+      "bmsAvgDeltaTC": 4.4,
+      "bmsSteps": 936,
+      "meterAvgDeltaTC": 72,
+      "meterSteps": 936,
+      "gapC": 67.6
+    },
+    {
+      "circuit": "tr003",
+      "bmsAvgDeltaTC": 4.1,
+      "bmsSteps": 936,
+      "meterAvgDeltaTC": 70.1,
+      "meterSteps": 936,
+      "gapC": 66.1
+    }
+  ],
+  "heatingDemand": {
+    "tr003": {
+      "fromPowerIntegralKwh": 818.5000000000002,
+      "fromEnergyMeterKwh": 515,
+      "groundTruthKwh": 515,
+      "source": "tr003_energy_meter"
+    },
+    "activeStepPct": 69.55,
+    "activeSteps": 651,
+    "observed": {
+      "batteryKwh": 11.84,
+      "districtKwh": 691.33,
+      "totalKwh": 703.17
+    },
+    "emulated": {
+      "batteryKwh": 20.34,
+      "districtKwh": 702.41,
+      "totalKwh": 722.75
+    },
+    "mpc": {
+      "batteryKwh": 11.51,
+      "districtKwh": 691.36,
+      "totalKwh": 702.87
+    },
+    "demand": {
+      "batteryKwh": 20.34,
+      "districtKwh": 702.41,
+      "totalKwh": 722.75
+    }
+  }
+}

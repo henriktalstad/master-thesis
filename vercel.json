@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "master-thesis-app/package.json",
+      "use": "@vercel/next"
+    }
+  ]
+}

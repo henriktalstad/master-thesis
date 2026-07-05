@@ -1,0 +1,195 @@
+{
+  "generatedAt": "2026-07-05T11:46:46.689Z",
+  "evalStart": "2026-06-24T00:00:00.000Z",
+  "evalEnd": "2026-07-04T00:00:00.000Z",
+  "buildingSlug": "sorgenfriveien-32ab",
+  "plantScope": {
+    "buildingSlug": "sorgenfriveien-32ab",
+    "siteLabel": "Nærbyen",
+    "ahuLabel": "AHU 360.102",
+    "simulationScopeShort": "ventilasjon, fjernvarmeventiler og energi",
+    "simulationScopeLong": "ventilasjon (AHU 360.102), fjernvarmeventiler TR002/TR003, planttilstand og byggenergi",
+    "algorithm": {
+      "modelVersion": "mpc-v1.1-building",
+      "shortLabel": "Bygg-MPC v1.1",
+      "thesisLabel": "Coupled bygg-MPC (horisont + plant)",
+      "description": "Receding-horizon δu-MPC over AHU og fjernvarmeventiler med koblet plant-emulator."
+    },
+    "comparisonTagline": "Målt · Forventet · Prisregler · MPC",
+    "actuators": [
+      {
+        "key": "supplySetpointC",
+        "label": "Tilluft settpunkt",
+        "scope": "ventilation"
+      },
+      {
+        "key": "supplyFanPct",
+        "label": "Tilluftvifte",
+        "scope": "ventilation"
+      },
+      {
+        "key": "exhaustFanPct",
+        "label": "Avtrekkvifte",
+        "scope": "ventilation"
+      },
+      {
+        "key": "heatingValvePct",
+        "label": "Varmebatteri",
+        "scope": "ventilation"
+      },
+      {
+        "key": "coolingValvePct",
+        "label": "Kjølebatteri",
+        "scope": "ventilation"
+      },
+      {
+        "key": "districtTr002ValvePct",
+        "label": "TR002 ventil",
+        "scope": "district_heating"
+      },
+      {
+        "key": "districtTr003ValvePct",
+        "label": "TR003 ventil",
+        "scope": "district_heating"
+      }
+    ],
+    "actuatorCount": 7,
+    "scopes": [
+      {
+        "id": "physical_control",
+        "title": "Fysisk styring",
+        "description": "Målt BMS-pådrag (u_k) per 15 min — settpunkt, vifter, varme- og kjølebatteri.",
+        "signalCount": 5
+      },
+      {
+        "id": "simulation",
+        "title": "Simulering og MPC",
+        "description": "Kontroll, plantmålinger og forstyrrelser i eval-replay og MPC.",
+        "signalCount": 16
+      },
+      {
+        "id": "district_heating",
+        "title": "Fjernvarme TR002/TR003",
+        "description": "Ventilpådrag i u_k (7 kanaler totalt) + tur-temp som plantmåling. Pumper følger ventil.",
+        "signalCount": 18
+      },
+      {
+        "id": "energy_cost",
+        "title": "Energi og kostnad",
+        "description": "Byggnivå el/fjernvarme (P_k, BHCC) + spotpris; AHU-andel estimert via proxy.",
+        "signalCount": 4
+      }
+    ],
+    "thesisScopeNote": "MPC og sammenligninger dekker ventilasjon (AHU 360.102), fjernvarmeventiler TR002/TR003 og tilhørende energiproxy — ikke hele byggets lys, heiser og øvrige soner."
+  },
+  "tuningPresetId": "anlegg_pris_respons_v1",
+  "tuningPresetLabel": "Anlegg pris-respons v1",
+  "mpcVsEmulatedDeltaPct": -2.8,
+  "mpcVsObservedDeltaPct": -1.7,
+  "meaningfulDeltaPct": 49.7,
+  "highPriceShiftPct": -4.2,
+  "stepCount": 936,
+  "fallbackPct": 0.05,
+  "policies": [
+    {
+      "policyId": "observed",
+      "label": "Målt",
+      "thesisLabel": "Målt BMS",
+      "controlMode": "measured",
+      "controlModeLabel": "Målt drift",
+      "role": "reference",
+      "claimLevel": "observed",
+      "totalCostKr": 390.18,
+      "deltaCostVsObservedKr": 0,
+      "deltaCostVsObservedPct": 0,
+      "comfortViolations": 4,
+      "peakElectricKw": 1.7,
+      "controllableElectricKwh": 71.67,
+      "controllableHeatKwh": 449.93,
+      "deltaCostVsEmulatedKr": -4.09,
+      "deltaCostVsEmulatedPct": -1
+    },
+    {
+      "policyId": "emulated",
+      "label": "Forventet",
+      "thesisLabel": "Forventet BMS",
+      "controlMode": "predicted_baseline",
+      "controlModeLabel": "Forventet drift",
+      "role": "reference",
+      "claimLevel": "predicted",
+      "totalCostKr": 394.27,
+      "deltaCostVsObservedKr": 4.09,
+      "deltaCostVsObservedPct": 1,
+      "comfortViolations": 9,
+      "peakElectricKw": 1.7,
+      "controllableElectricKwh": 74.38,
+      "controllableHeatKwh": 455.03,
+      "deltaCostVsEmulatedKr": 0,
+      "deltaCostVsEmulatedPct": 0
+    },
+    {
+      "policyId": "demand-scoped",
+      "label": "Prisregler",
+      "thesisLabel": "Prisregler",
+      "controlMode": "price_responsive_rules",
+      "controlModeLabel": "Pris og vær",
+      "role": "comparator",
+      "claimLevel": "simulated",
+      "totalCostKr": 386.6,
+      "deltaCostVsObservedKr": -3.58,
+      "deltaCostVsObservedPct": -0.9,
+      "comfortViolations": 8,
+      "peakElectricKw": 1.7,
+      "controllableElectricKwh": 69.43,
+      "controllableHeatKwh": 455.03,
+      "deltaCostVsEmulatedKr": -7.67,
+      "deltaCostVsEmulatedPct": -1.9
+    },
+    {
+      "policyId": "mpc-v1",
+      "label": "MPC",
+      "thesisLabel": "MPC",
+      "controlMode": "horizon_coupled_mpc",
+      "controlModeLabel": "Horisont-MPC",
+      "role": "proposed",
+      "claimLevel": "simulated",
+      "totalCostKr": 383.41,
+      "deltaCostVsObservedKr": -6.77,
+      "deltaCostVsObservedPct": -1.7,
+      "comfortViolations": 6,
+      "peakElectricKw": 1.7,
+      "controllableElectricKwh": 66.94,
+      "controllableHeatKwh": 450.05,
+      "deltaCostVsEmulatedKr": -10.86,
+      "deltaCostVsEmulatedPct": -2.8
+    }
+  ],
+  "energyReconcile": {
+    "measuredBuildingCostKr": 862.86,
+    "proxyObservedCostKr": 390.18,
+    "scopeCoveragePct": 45.2
+  },
+  "comparisonMatrix": {
+    "baselinePolicyId": "emulated",
+    "rows": [
+      {
+        "policyId": "observed",
+        "deltaCostKr": -4.09,
+        "deltaCostPct": -1,
+        "comfortDelta": -5
+      },
+      {
+        "policyId": "demand-scoped",
+        "deltaCostKr": -7.67,
+        "deltaCostPct": -1.9,
+        "comfortDelta": -1
+      },
+      {
+        "policyId": "mpc-v1",
+        "deltaCostKr": -10.86,
+        "deltaCostPct": -2.8,
+        "comfortDelta": -3
+      }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "generatedAt": "2026-07-05T11:46:46.689Z",
+  "highPriceHours": 59,
+  "bands": {
+    "high": {
+      "baselineKwh": 133.44,
+      "mpcKwh": 129.21,
+      "deltaKwh": 4.23,
+      "deltaPct": -3.17
+    },
+    "medium": {
+      "baselineKwh": 251.31,
+      "mpcKwh": 245.3,
+      "deltaKwh": 6.01,
+      "deltaPct": -2.39
+    },
+    "low": {
+      "baselineKwh": 144.66,
+      "mpcKwh": 142.49,
+      "deltaKwh": 2.17,
+      "deltaPct": -1.5
+    }
+  },
+  "deltaE_hp_kwh": 4.23,
+  "deltaE_hp_pct": -3.17,
+  "highPriceCostBaselineKr": 106.52,
+  "highPriceCostMpcKr": 102.05,
+  "highPriceCostDeltaKr": 4.47,
+  "highPriceCostDeltaPct": -4.2,
+  "interpretation": "Simulert forslag bruker mindre energi i høypris-timer"
+}

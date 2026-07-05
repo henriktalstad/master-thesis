@@ -1,0 +1,16 @@
+export const PROCESS_SCHEMATIC_SVG = {
+  canvasBg: "var(--process-schematic-canvas)",
+  ductFill: "var(--process-schematic-duct-fill)",
+  ductStroke: "var(--process-schematic-duct-stroke)",
+  ductHighlight: "var(--process-schematic-duct-highlight)",
+  hxFill: "var(--process-schematic-hx-fill)",
+  pipeStroke: "var(--process-schematic-pipe-stroke)",
+  hatchStroke: "var(--process-schematic-hatch)",
+  flowSupply: "var(--process-schematic-flow-supply)",
+  flowExhaust: "var(--process-schematic-flow-exhaust)",
+  flowOutdoor: "var(--process-schematic-flow-outdoor)",
+  flowSupplyBg: "var(--process-schematic-flow-supply-bg)",
+  flowExhaustBg: "var(--process-schematic-flow-exhaust-bg)",
+  flowOutdoorBg: "var(--process-schematic-flow-outdoor-bg)",
+  flowNeutralBg: "var(--process-schematic-flow-neutral-bg)",
+} as const;
